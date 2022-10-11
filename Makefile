@@ -13,7 +13,9 @@ SLURM_BUILD_DIR	=	/root/rpmbuild/BUILD/slurm-$(SLURM_BUILD)
 
 NAME			=	ask_demeter
 
-SRC 			=	src/ask_demeter.c
+SRC 			=	src/ask_demeter.c	\
+					src/get_arg.c		\
+					src/init_args.c		\
 
 CC				=	gcc
 CFLAGS			?=	-Wall -Iinclude -I$(SLURM_INC_DIR) -I$(SLURM_BUILD_DIR)
