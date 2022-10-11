@@ -16,7 +16,7 @@ int main (int ac, char **av)
 
     if (get_arg(ac, av, args) == 84)
         return (84);
-    //else
-        //printf("Job id: %lli\nHostname: %s\nTask id: %lli\nFormat: %s\n", args->job_id, args->hostname, args->task_id, args->format);
+    // else
+    //     printf("Job id: %lli\nHostname: %s\nTask id: %lli\nFormat: %s\n", args->job_id, args->hostname, args->task_id, args->format);
     return (0);
 }
