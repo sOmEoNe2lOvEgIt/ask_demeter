@@ -13,6 +13,7 @@
 int main (int ac, char **av)
 {
     ask_demeter_args_t *args = init_args();
+    
 
     if (get_arg(ac, av, args) == 84)
         return (84);

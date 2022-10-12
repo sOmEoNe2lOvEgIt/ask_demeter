@@ -46,6 +46,15 @@ static bool check_arg(ask_demeter_args_t *args)
     return (false);
 }
 
+static bool is_positive_int(char *str)
+{
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (str[i] < '0' || str[i] > '9')
+            return (false);
+    }
+    return (true);
+}
+
 int get_arg(int ac, char **av, ask_demeter_args_t *args)
 {
     static struct option long_options[] =
@@ -63,12 +72,20 @@ int get_arg(int ac, char **av, ask_demeter_args_t *args)
             case 'h':
                 return (help());
             case 'j':
+                if (!is_positive_int(optarg)) {
+                    fprintf(stderr, "Error: Invalid job id. Has to be a positive integer.\n");
+                    return (84);
+                }
                 args->job_id = atoi(optarg);
                 break;
             case 'H':
                 args->hostname = optarg;
                 break;
             case 't':
+                if (!is_positive_int(optarg) && strcmp(optarg, "-1") != 0) {
+                    fprintf(stderr, "Error: Invalid task id. Has to be an integer over or equal to '-1'\n");
+                    return (84);
+                }
                 args->task_id = atoi(optarg);
                 break;
             case 'f':

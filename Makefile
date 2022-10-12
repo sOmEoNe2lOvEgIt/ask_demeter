@@ -5,21 +5,18 @@
 ## Wow, such make, much file!
 ##
 
-SLURM_ROOT_DIR	=	/usr
-SLURM_INC_DIR	=	/root/SLURM/slurm.build
-SLURM_LIB_DIR	=	/usr/lib64/slurm
-SLURM_BUILD		=	21.08.8-2
-SLURM_BUILD_DIR	=	/root/rpmbuild/BUILD/slurm-$(SLURM_BUILD)
+LIB_DEMETER			=	/home/atos/lib_demeter
+DEMETER_RUN_PATH	=	/home/atos/lib_demeter/
 
-NAME			=	ask_demeter
+NAME				=	ask_demeter
 
-SRC 			=	src/ask_demeter.c	\
-					src/get_arg.c		\
-					src/init_args.c		\
+SRC 				=	src/ask_demeter.c	\
+						src/get_arg.c		\
+						src/init_args.c
 
-CC				=	gcc
-CFLAGS			?=	-Wall -Iinclude -I$(SLURM_INC_DIR) -I$(SLURM_BUILD_DIR)
-LDFLAGS			?=  -lcurl
+CC					=	gcc
+CFLAGS				?=	-Wall -g3 -gstrict-dwarf -Iinclude -I$(LIB_DEMETER)/include -Wl,-rpath=$(DEMETER_RUN_PATH)
+LDFLAGS				?=  -lcurl -L$(LIB_DEMETER) -ldemeter
 
 all:			$(NAME)
 
