@@ -8,13 +8,14 @@
 #include <stdio.h>
 #include <curl/curl.h>
 #include "demeter.h"
+#include "ask_demeter.h"
 
 struct url_data {
     size_t size;
     char* data;
 };
 
-size_t write_data(void *ptr, size_t size, size_t nmemb, struct url_data *data) {
+static size_t write_data(void *ptr, size_t size, size_t nmemb, struct url_data *data) {
     size_t index = data->size;
     size_t n = (size * nmemb);
     char* tmp;
@@ -35,9 +36,9 @@ size_t write_data(void *ptr, size_t size, size_t nmemb, struct url_data *data) {
     return (size * nmemb);
 }
 
-static char *get_search_adress(char *adress)
+static char *get_search_adress(char *in_adress)
 {
-    char *change = NULL;
+    char *change = NULL, *adress = strdup (in_adress);
 
     if (adress == NULL)
         return (NULL);
@@ -49,29 +50,36 @@ static char *get_search_adress(char *adress)
     return (adress);
 }
 
-char *get_demeter_job(uint job_id, demeter_conf_t *conf)
+static bool get_query(char **query, ask_demeter_args_t *args)
+{
+    if (args->step_id != -1) {
+        asprintf(query, "{\"query\": {\"bool\": {\"must\": [{\"match\": {\"job_id\": \"%lld\"}}, {\"match\": {\"step_id\": \"%lld\"}}]}}}",
+        args->job_id, args->step_id);
+    } else {
+        asprintf(query, "{\"query\": {\"match\": {\"job_id\": \"%lld\"}}}",
+        args->job_id);
+    }
+    if (*query == NULL)
+        return (false);
+    printf("query: %s\n", *query);
+    return (true);
+}
+
+char *get_demeter_job(ask_demeter_args_t *args, demeter_conf_t *conf)
 {
     CURL *curl;
     CURLcode res;
     struct curl_slist *list = NULL;
     char *query = NULL,*adress = NULL;
-    struct url_data data;
+    struct url_data data = {0, NULL};
 
-    asprintf(&query, "{\"query\" : {\"match\" : {\"job_id\" : \"%u\"}}}", job_id);
-    if (query == NULL)
+    if (!get_query(&query, args) ||
+    (data.data = malloc(4096)) == NULL)
         return (NULL);
-    adress = strdup(conf->demeter_comp_loc);
-    adress = get_search_adress(adress);
-    data.size = 0;
-    data.data = malloc(4096);
-    if(data.data == NULL) {
-        fprintf(stderr, "Failed to allocate memory.\n");
-        return NULL;
-    }
     data.data[0] = '\0';
+    adress = get_search_adress(conf->demeter_comp_loc);
     list = curl_slist_append(list, "Content-Type: application/json");
-    curl = curl_easy_init();
-    if (curl) {
+    if ((curl = curl_easy_init())) {
         curl_easy_setopt(curl, CURLOPT_URL, adress);
         if (conf->demeter_comp_proxy != NULL) {
             curl_easy_setopt(curl, CURLOPT_PROXY, conf->demeter_comp_proxy);
@@ -82,8 +90,7 @@ char *get_demeter_job(uint job_id, demeter_conf_t *conf)
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, list);
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &data);
-        res = curl_easy_perform(curl);
-        if (res != CURLE_OK)
+        if ((res = curl_easy_perform(curl)) != CURLE_OK)
             fprintf(stderr, "curl_easy_perform() failed:  %s\n", curl_easy_strerror(res));
     }
     curl_easy_cleanup(curl);

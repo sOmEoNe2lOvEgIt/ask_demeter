@@ -61,13 +61,13 @@ int get_arg(int ac, char **av, ask_demeter_args_t *args)
     {{"help", no_argument, 0, 'h'},
     {"jobId", required_argument, 0, 'j'},
     {"hostname", required_argument, 0, 'H'},
-    {"taskId",  required_argument, 0, 't'},
+    {"stepId",  required_argument, 0, 's'},
     {"format",  required_argument, 0, 'f'},
     {0, 0, 0, 0}};
     int option_index = 0;
     int get_opt = 0;
 
-    while ((get_opt = getopt_long(ac, av, "hj:H:t:f:", long_options, &option_index)) != -1) {
+    while ((get_opt = getopt_long(ac, av, "hj:H:s:f:", long_options, &option_index)) != -1) {
         switch (get_opt) {
             case 'h':
                 return (help());
@@ -81,12 +81,12 @@ int get_arg(int ac, char **av, ask_demeter_args_t *args)
             case 'H':
                 args->hostname = optarg;
                 break;
-            case 't':
+            case 's':
                 if (!is_positive_int(optarg) && strcmp(optarg, "-1") != 0) {
-                    fprintf(stderr, "Error: Invalid task id. Has to be an integer over or equal to '-1'\n");
+                    fprintf(stderr, "Error: Invalid step id. Has to be an integer over or equal to '-1'\n");
                     return (84);
                 }
-                args->task_id = atoi(optarg);
+                args->step_id = atoi(optarg);
                 break;
             case 'f':
                 args->format = optarg;

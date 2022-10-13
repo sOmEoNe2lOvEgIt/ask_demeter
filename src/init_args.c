@@ -15,7 +15,7 @@ ask_demeter_args_t *init_args(void)
     if (args == NULL)
         return (NULL);
     args->job_id = -1;
-    args->task_id = -1;
+    args->step_id = -1;
     args->hostname = NULL;
     args->format = NULL;
     return (args);

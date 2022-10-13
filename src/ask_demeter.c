@@ -18,7 +18,7 @@ int main (int ac, char **av)
     (conf = read_conf()) == NULL ||
     get_arg(ac, av, args))
         return (84);
-    if ((data = get_demeter_job(args->job_id, conf)) == NULL)
+    if ((data = get_demeter_job(args, conf)) == NULL)
         return (84);
     else {
         printf("%s\n", data);
