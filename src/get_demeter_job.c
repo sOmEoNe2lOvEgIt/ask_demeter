@@ -53,7 +53,7 @@ static char *get_search_adress(char *in_adress)
 static bool get_query(char **query, ask_demeter_args_t *args)
 {
     if (args->step_id != -1) {
-        asprintf(query, "{\"query\": {\"bool\": {\"must\": [{\"match\": {\"job_id\": \"%lld\"}}, {\"match\": {\"step_id\": \"%lld\"}}]}}}",
+        asprintf(query, "{\"query\": { \"bool\": { \"must\": {\"match\": {\"job_id\": \"%lld\"}}, \"filter\": {\"exists\": {\"field\": \"job_data.cgroup.step_%llu\"}}}}}",
         args->job_id, args->step_id);
     } else {
         asprintf(query, "{\"query\": {\"match\": {\"job_id\": \"%lld\"}}}",
@@ -61,7 +61,6 @@ static bool get_query(char **query, ask_demeter_args_t *args)
     }
     if (*query == NULL)
         return (false);
-    printf("query: %s\n", *query);
     return (true);
 }
 

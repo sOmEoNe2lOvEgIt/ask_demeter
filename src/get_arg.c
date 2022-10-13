@@ -34,7 +34,7 @@ static bool check_arg(ask_demeter_args_t *args)
         fprintf(stderr, "Error: Invalid job id.\n");
         return (true);
     }
-    if (args->task_id < -1) {
+    if (args->step_id < -1) {
         fprintf(stderr, "Error: Invalid task id.\n");
         return (true);
     }
