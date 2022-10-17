@@ -38,7 +38,7 @@ static size_t write_data(void *ptr, size_t size, size_t nmemb, struct url_data *
 
 static char *get_search_adress(char *in_adress)
 {
-    char *change = NULL, *adress = strdup (in_adress);
+    char *change = NULL, *adress = strdup(in_adress);
 
     if (adress == NULL)
         return (NULL);
@@ -52,13 +52,14 @@ static char *get_search_adress(char *in_adress)
 
 static bool get_query(char **query, ask_demeter_args_t *args)
 {
-    if (args->step_id != -1) {
-        asprintf(query, "{ \"_source\":{ \"include\": [\"job_data.cgroup.step_%llu\"]}, \"query\": {\"match\": {\"job_id\": \"%lld\"}}}",
-        args->step_id, args->job_id);
-    } else {
-        asprintf(query, "{\"query\": {\"match\": {\"job_id\": \"%lld\"}}}",
-        args->job_id);
-    }
+    // if (args->step_id != -1) {
+    //     asprintf(query, "{ \"_source\":{ \"include\": [\"job_data.cgroup.step_%llu\"]}, \"query\": {\"match\": {\"job_id\": \"%lld\"}}}",
+    //     args->step_id, args->job_id);
+    // } else {
+    //     asprintf(query, "{\"query\": {\"match\": {\"job_id\": \"%lld\"}}}",
+    //     args->job_id);
+    // }
+    asprintf(query, "{\"query\": {\"match\": {\"job_id\": \"%lld\"}}}", args->job_id);
     if (*query == NULL)
         return (false);
     return (true);
@@ -95,5 +96,6 @@ char *get_demeter_job(ask_demeter_args_t *args, demeter_conf_t *conf)
     curl_easy_cleanup(curl);
     curl_slist_free_all(list);
     free(query);
+    free(adress);
     return (data.data);
 }

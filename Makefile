@@ -11,14 +11,16 @@ DEMETER_RUN_PATH	=	/home/atos/lib_demeter/
 
 NAME				=	ask_demeter
 
-SRC 				=	src/ask_demeter.c		\
-						src/get_arg.c			\
-						src/init_args.c			\
-						src/get_demeter_job.c	\
+SRC 				=	src/ask_demeter.c					\
+						src/get_arg.c						\
+						src/init_args.c						\
+						src/get_demeter_job.c				\
+						src/json/handle_json.c				\
+						src/json/json_tools/parse_json.c	\
 
 CC					=	gcc
-CFLAGS				?=	-Wall -g3 -gstrict-dwarf -Iinclude -I$(LIB_DEMETER)/include -I$(SLURM_INCLUDE_DIR) -Wl,-rpath=$(DEMETER_RUN_PATH)
-LDFLAGS				?=  -lcurl -L$(LIB_DEMETER) -ldemeter
+CFLAGS				?=	-Wall -g3 -Iinclude -I$(LIB_DEMETER)/include -I$(SLURM_INCLUDE_DIR) -Wl,-rpath=$(DEMETER_RUN_PATH)
+LDFLAGS				?=  -lcurl -L$(LIB_DEMETER) -ldemeter -ljson-c
 
 all:			$(NAME)
 
