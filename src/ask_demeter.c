@@ -13,6 +13,7 @@ int main (int ac, char **av)
     ask_demeter_args_t *args = NULL;
     demeter_conf_t *conf = NULL;
     char *data = NULL;
+    char *node_name = NULL, *node_count = NULL;
     int ret = 0;
 
     if ((args = init_args()) == NULL ||
@@ -20,7 +21,14 @@ int main (int ac, char **av)
     get_arg(ac, av, args)) {
         ret = 84;
     }
-    if (!ret && (data = get_demeter_job(args, conf)) != NULL) {
+    if (args->node_set != NULL) {
+        node_name = get_nodename(args->node_set);
+        node_count = get_nodecount(args->node_set);
+        if (node_name == NULL || node_count == NULL) {
+            ret = 84;
+        }
+    }
+    if (!ret && (data = get_demeter_json(args, conf)) != NULL) {
         if (handle_json(data, args))
             ret = 84;
         free(data);

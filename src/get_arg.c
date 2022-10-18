@@ -63,11 +63,14 @@ int get_arg(int ac, char **av, ask_demeter_args_t *args)
     {"hostname", required_argument, 0, 'H'},
     {"stepId",  required_argument, 0, 's'},
     {"format",  required_argument, 0, 'f'},
+    {"nodeset", required_argument, 0, 'n'},
+    {"slurmsys-logs", no_argument, 0, 'l'},
+    {"infiniband_logs", no_argument, 0, 'i'},
     {0, 0, 0, 0}};
     int option_index = 0;
     int get_opt = 0;
 
-    while ((get_opt = getopt_long(ac, av, "hj:H:s:f:", long_options, &option_index)) != -1) {
+    while ((get_opt = getopt_long(ac, av, "hlij:n:H:s:f:", long_options, &option_index)) != -1) {
         switch (get_opt) {
             case 'h':
                 return (help());
@@ -90,6 +93,15 @@ int get_arg(int ac, char **av, ask_demeter_args_t *args)
                 break;
             case 'f':
                 args->format = optarg;
+                break;
+            case 'n':
+                args->node_set = optarg;
+                break;
+            case 'l':
+                args->slurmsys_logs = true;
+                break;
+            case 'i':
+                args->infiniband_logs = true;
                 break;
             default:
                 fprintf(stderr, "Error: Invalid option.\n");

@@ -27,5 +27,8 @@ ask_demeter_args_t *init_args(void)
     args->step_id = -1;
     args->hostname = NULL;
     args->format = NULL;
+    args->node_set = NULL;
+    args->slurmsys_logs = false;
+    args->infiniband_logs = false;
     return (args);
 }
