@@ -12,9 +12,9 @@ DEMETER_RUN_PATH	=	/home/atos/lib_demeter/
 NAME				=	ask_demeter
 
 SRC 				=	src/ask_demeter.c					\
-						src/get_arg.c						\
-						src/init_args.c						\
-						src/get_demeter_job.c				\
+						src/tools/init/init_args.c			\
+						src/tools/get/get_arg.c				\
+						src/tools/get/get_demeter_job.c		\
 						src/json/handle_json.c				\
 						src/json/json_tools/parse_json.c	\
 						src/json/json_tools/display_json.c	\

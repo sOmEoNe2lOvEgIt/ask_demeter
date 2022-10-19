@@ -105,15 +105,17 @@ static int disp_job_json(json_object *jobj)
 
 int display_json(char *parsed_json, ask_demeter_args_t *ask_demeter_conf)
 {
-    json_object *jobj = NULL;
+    json_object *jobj = NULL, *jobj_element = json_object_new_null();
 
-    // printf ("JSON string: %s\n\n", parsed_json);
+    if (!(jobj = json_tokener_parse(parsed_json)) ||
+    !(jobj_element = json_object_object_get(jobj, "hostname")))
+        return (1);
+    if (ask_demeter_conf->node_set &&
+    !is_in_nodeset((char *)json_object_get_string(jobj_element), ask_demeter_conf->node_set))
+        return (freeturn_json_obj(jobj, 0));
     printf("\nASK_DEMETER GATHERED DATA:\n\n");
-    if (!(jobj = json_tokener_parse(parsed_json)))
-        return(1);
-    
     printf("Job id: %lli\n", ask_demeter_conf->job_id);
     if (ask_demeter_conf->step_id == -1 && disp_job_json(jobj))
-        return (1);
+        return (freeturn_json_obj(jobj, 1));
     return (freeturn_json_obj(jobj, 0));
 }
