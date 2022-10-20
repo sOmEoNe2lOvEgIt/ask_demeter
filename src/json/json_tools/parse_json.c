@@ -16,7 +16,7 @@ static int freeturn_step_key(int ret, char *step_key)
     return (ret);
 }
 
-int parse_json(json_object *raw_json, ask_demeter_args_t *ask_demeter_conf, char **output_str)
+int parse_json_str(json_object *raw_json, ask_demeter_args_t *ask_demeter_conf, char **output_str)
 {
     json_object *source = NULL, *job_data = NULL,
     *cgroup = NULL, *step = NULL;
