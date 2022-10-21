@@ -73,12 +73,34 @@ void display_json(linked_list_t *list, ask_demeter_args_t *ask_demeter_conf)
     }
 }
 
+void free_parsed_hostname_json_list(linked_list_t *list)
+{
+    parsed_hostname_json_t *parsed_json_struct = NULL;
+    linked_list_t *tmp = NULL, *old = NULL;
+
+    for (tmp = list; tmp != NULL; tmp = tmp->next) {
+        if (old)
+            free(old);
+        parsed_json_struct = (parsed_hostname_json_t *)tmp->data;
+        if (parsed_json_struct->hostname)
+            free(parsed_json_struct->hostname);
+        if (parsed_json_struct->cgroup_data)
+            free_cgroup_list(parsed_json_struct->cgroup_data);
+        if (parsed_json_struct->log_counter)
+            free_log_counter(parsed_json_struct->log_counter);
+        free(parsed_json_struct);
+        old = tmp;
+    }
+    if (old)
+        free(old);
+}
+
 int handle_json(char *raw_json, ask_demeter_args_t *ask_demeter_conf)
 {
     int ret = 0;
-    linked_list_t *list = NULL;
+    linked_list_t *parsed_json_list = NULL;
 
-    switch(handle_json_hosts(raw_json, ask_demeter_conf, &list)) {
+    switch(handle_json_hosts(raw_json, ask_demeter_conf, &parsed_json_list)) {
         case 0:
             break;
         case 1:
@@ -87,6 +109,7 @@ int handle_json(char *raw_json, ask_demeter_args_t *ask_demeter_conf)
         default:
             return (1);
     }
-    display_json(list, ask_demeter_conf);
+    display_json(parsed_json_list, ask_demeter_conf);
+    free_parsed_hostname_json_list(parsed_json_list);
     return (ret);
 }

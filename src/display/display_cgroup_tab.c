@@ -39,27 +39,20 @@ int display_cgroup_tab_all_nodes(linked_list_t *list, ask_demeter_args_t *ask_de
     print_line(109, false);
     printf("│      Hostname     │   Stepid   │  MaxMemUse │  UnderOom  │   OomKill  │ CpusetCpus │ CpusetEffectiveCpus │\n");
     print_line(109, false);
-    for (tmp = list; tmp != NULL && tmp->data; tmp = tmp->next)
+    for (tmp = list; tmp && tmp->data; tmp = tmp->next)
     {
-        node = (parsed_hostname_json_t *)tmp->data;
-        if (!(tmp_cgroup = node->cgroup_data))
+        if (!(node = (parsed_hostname_json_t *)tmp->data) || !(tmp_cgroup = node->cgroup_data))
             continue;
-        while (tmp_cgroup->data == NULL && tmp_cgroup->next != NULL)
-            tmp_cgroup = tmp_cgroup->next;
-        if (tmp_cgroup->data == NULL)
+        for (;tmp_cgroup && !tmp_cgroup->data && tmp_cgroup->next; tmp_cgroup = tmp_cgroup->next);
+        if (!tmp_cgroup->data)
             continue;
-
-        while (tmp_cgroup)
-        {
-            if (!(cgroup_data = (cgroup_data_t *)tmp_cgroup->data))
-                continue;
+        for (;tmp_cgroup && (cgroup_data = (cgroup_data_t *)tmp_cgroup->data); tmp_cgroup = tmp_cgroup->next) {
             if (cgroup_data->step_id == UINT_MAX)
                 printf("│   %14s  │    BASH    │ %10d │ %10d │ %10d │ %10s │ %19s │\n",
                        node->hostname, cgroup_data->mem_max_usage_bytes, cgroup_data->under_oom, cgroup_data->oom_kill, cgroup_data->cpuset_cpus, cgroup_data->cpuset_effective_cpus);
             else if (!ask_demeter_conf->hide_steps)
                 printf("│   %14s  │ %10d │ %10d │ %10d │ %10d │ %10s │ %19s │\n",
                        node->hostname, cgroup_data->step_id, cgroup_data->mem_max_usage_bytes, cgroup_data->under_oom, cgroup_data->oom_kill, cgroup_data->cpuset_cpus, cgroup_data->cpuset_effective_cpus);
-            tmp_cgroup = tmp_cgroup->next;
         }
     }
     print_line(109, false);

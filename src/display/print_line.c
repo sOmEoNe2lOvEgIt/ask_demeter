@@ -13,7 +13,7 @@ void print_line(int len, bool tab)
 {
     char *line = NULL;
 
-    if (!(line = malloc(sizeof(char) * len)))
+    if (!(line = malloc(sizeof(char) * len + 1)))
         return;
     memset(line, '_', len - 1);
     line[len - 1] = '\n';
