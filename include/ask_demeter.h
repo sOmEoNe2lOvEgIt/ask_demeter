@@ -19,6 +19,7 @@ typedef struct ask_demeter_args_s {
     char *node_set;
     bool slurmsys_logs;
     bool infiniband_logs;
+    bool hide_steps;
 } ask_demeter_args_t;
 
 typedef struct parsed_hostname_json_s {
@@ -44,5 +45,13 @@ int parse_json_str(json_object *raw_json, ask_demeter_args_t *ask_demeter_conf, 
 
 int parse_json_host(char *parsed_json_str, ask_demeter_args_t *ask_demeter_conf,
 parsed_hostname_json_t *parsed_json);
+
+int display_cgroup_tab(linked_list_t *list, ask_demeter_args_t *ask_demeter_conf);
+
+int display_cgroup_tab_all_nodes(linked_list_t *list, ask_demeter_args_t *ask_demeter_conf);
+
+int display_log_counter_tab(log_counter_t *log_counter);
+
+void print_line(int len, bool tab);
 
 #endif /* !ASK_DEMETER_H_ */

@@ -52,27 +52,23 @@ static int handle_json_hosts(char *raw_json, ask_demeter_args_t *ask_demeter_con
     return (freeturn_json_object(parsed_json, ret, NULL));
 }
 
-void display_json(linked_list_t *list)
+void display_json(linked_list_t *list, ask_demeter_args_t *ask_demeter_conf)
 {
     parsed_hostname_json_t *parsed_json_struct = NULL;
-    linked_list_t *cgroup_tmp = NULL;
-    cgroup_data_t *cgroup_data_struct = NULL;
+    linked_list_t *tmp = NULL;
 
-    for (linked_list_t *tmp = list; tmp != NULL; tmp = tmp->next) {
-        parsed_json_struct = (parsed_hostname_json_t *)tmp->data;
-        if (!parsed_json_struct->hostname)
-            continue;
-        printf("Hostname: %s\n", parsed_json_struct->hostname);
-        printf("\tUser id: %d\n", parsed_json_struct->user_id);
-        cgroup_tmp = parsed_json_struct->cgroup_data;
-        while (cgroup_tmp && cgroup_tmp->data) {
-            cgroup_data_struct = (cgroup_data_t *)cgroup_tmp->data;
-            if (cgroup_data_struct->step_id != UINT_MAX)
-                printf("\tStep id: %u\n", cgroup_data_struct->step_id);
-            else
-                printf("\tStep id: End step\n");
-            printf("\t\tMem max usage: %u\n", cgroup_data_struct->mem_max_usage_bytes);
-            cgroup_tmp = cgroup_tmp->next;
+    printf ("Cgroup data for each node:\n");
+    if (!ask_demeter_conf->node_set) {
+        display_cgroup_tab_all_nodes(list, ask_demeter_conf);
+    } else {
+
+        for (tmp = list; tmp != NULL; tmp = tmp->next) {
+            parsed_json_struct = (parsed_hostname_json_t *)tmp->data;
+            if (!parsed_json_struct->hostname)
+                continue;
+            printf("\nHOST %s:\n", parsed_json_struct->hostname);
+            display_cgroup_tab(parsed_json_struct->cgroup_data, ask_demeter_conf);
+            display_log_counter_tab(parsed_json_struct->log_counter);
         }
     }
 }
@@ -91,6 +87,6 @@ int handle_json(char *raw_json, ask_demeter_args_t *ask_demeter_conf)
         default:
             return (1);
     }
-    display_json(list);
+    display_json(list, ask_demeter_conf);
     return (ret);
 }

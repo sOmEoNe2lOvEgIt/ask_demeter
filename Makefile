@@ -19,6 +19,9 @@ SRC 				=	src/ask_demeter.c							\
 						src/json/handle_json.c						\
 						src/json/json_tools/parse_json.c			\
 						src/json/json_tools/parse_json_host.c		\
+						src/display/display_cgroup_tab.c			\
+						src/display/display_log_counter_tab.c		\
+						src/display/print_line.c					\
 
 CC					=	gcc
 CFLAGS				?=	-Wall -g3 -Iinclude -I$(LIB_DEMETER)/include -I$(SLURM_INCLUDE_DIR) -Wl,-rpath=$(DEMETER_RUN_PATH)
