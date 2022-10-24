@@ -20,7 +20,7 @@ int main (int ac, char **av)
     get_arg(ac, av, args)) {
         ret = 84;
     }
-    if (!ret && (data = get_demeter_json(args, conf)) != NULL) {
+    if (!ret && (data = get_demeter_json(args, conf))) {
         if (handle_json(data, args))
             ret = 84;
         free(data);

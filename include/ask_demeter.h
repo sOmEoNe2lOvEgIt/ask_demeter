@@ -52,6 +52,8 @@ int display_cgroup_tab_all_nodes(linked_list_t *list, ask_demeter_args_t *ask_de
 
 int display_log_counter_tab(log_counter_t *log_counter);
 
+int display_log_counter_tab_all_nodes(linked_list_t *host_list);
+
 void print_line(int len, bool tab);
 
 #endif /* !ASK_DEMETER_H_ */
