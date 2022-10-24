@@ -76,6 +76,8 @@ void display_json(linked_list_t *list, ask_demeter_args_t *ask_demeter_conf)
                 fprintf(stderr, "Error while displaying cgroup data.\n");
             if (!ask_demeter_conf->hide_log_counters && display_log_counter_tab(parsed_json_struct->log_counter))
                 fprintf(stderr, "Error while displaying log counter data.\n");
+            if (ask_demeter_conf->slurmsys_logs && display_slurm_sys_logs(parsed_json_struct))
+                fprintf(stderr, "Error while displaying slurm sys logs.\n");
         }
     }
 }  

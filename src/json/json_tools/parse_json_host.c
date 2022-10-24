@@ -113,6 +113,13 @@ static int get_host_json(json_object *jobj, parsed_hostname_json_t *parsed_json)
         return (freeturn_json_obj(jobj, 1));
     if (get_log_counter(strdup(json_object_to_json_string(jiobj)), parsed_json))
         return (freeturn_json_obj(jobj, 1));
+    if (!(jiobj = json_object_object_get(jobj, "job_data")))
+        return (freeturn_json_obj(jobj, 1));
+    if (!(jiobj = json_object_object_get(jiobj, "syslogs/slurmlogs")))
+        return (freeturn_json_obj(jobj, 1));
+    if (!(jiobj = json_object_object_get(jiobj, "data")))
+        return (freeturn_json_obj(jobj, 1));
+    parsed_json->sys_slurm_logs = strdup(json_object_get_string(jiobj));
     return (0);
 }
 
