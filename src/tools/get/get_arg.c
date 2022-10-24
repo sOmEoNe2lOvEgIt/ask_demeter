@@ -67,11 +67,12 @@ int get_arg(int ac, char **av, ask_demeter_args_t *args)
     {"slurmsys-logs", no_argument, 0, 'l'},
     {"infiniband_logs", no_argument, 0, 'i'},
     {"hideSteps", no_argument, 0, 'X'},
+    {"hideLogCounters", no_argument, 0, 'L'},
     {0, 0, 0, 0}};
     int option_index = 0;
     int get_opt = 0;
 
-    while ((get_opt = getopt_long(ac, av, "hliXj:n:H:s:f:", long_options, &option_index)) != -1) {
+    while ((get_opt = getopt_long(ac, av, "hliXLj:n:H:s:f:", long_options, &option_index)) != -1) {
         switch (get_opt) {
             case 'h':
                 return (help());
@@ -106,6 +107,9 @@ int get_arg(int ac, char **av, ask_demeter_args_t *args)
                 break;
             case 'X':
                 args->hide_steps = true;
+                break;
+            case 'L':
+                args->hide_log_counters = true;
                 break;
             default:
                 fprintf(stderr, "Error: Invalid option.\n");

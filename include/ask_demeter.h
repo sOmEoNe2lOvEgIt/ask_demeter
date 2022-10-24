@@ -20,6 +20,7 @@ typedef struct ask_demeter_args_s {
     bool slurmsys_logs;
     bool infiniband_logs;
     bool hide_steps;
+    bool hide_log_counters;
 } ask_demeter_args_t;
 
 typedef struct parsed_hostname_json_s {

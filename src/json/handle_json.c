@@ -61,9 +61,11 @@ void display_json(linked_list_t *list, ask_demeter_args_t *ask_demeter_conf)
         printf ("Cgroup data for each node:\n");
         if (display_cgroup_tab_all_nodes(list, ask_demeter_conf))
             fprintf(stderr, "Error while displaying cgroup data.\n");
-        printf ("\nLog counter for each node:\n");
-        if (display_log_counter_tab_all_nodes(list))
-            fprintf(stderr, "Error while displaying log counter data.\n");
+        if (!ask_demeter_conf->hide_log_counters) {
+            printf ("\nLog counter for each node:\n");
+            if (display_log_counter_tab_all_nodes(list))
+                fprintf(stderr, "Error while displaying log counter data.\n");
+        }
     } else {
         for (tmp = list; tmp != NULL; tmp = tmp->next) {
             parsed_json_struct = (parsed_hostname_json_t *)tmp->data;
@@ -72,7 +74,7 @@ void display_json(linked_list_t *list, ask_demeter_args_t *ask_demeter_conf)
             printf("\nHOST %s:\n", parsed_json_struct->hostname);
             if (display_cgroup_tab(parsed_json_struct->cgroup_data, ask_demeter_conf))
                 fprintf(stderr, "Error while displaying cgroup data.\n");
-            if (display_log_counter_tab(parsed_json_struct->log_counter))
+            if (!ask_demeter_conf->hide_log_counters && display_log_counter_tab(parsed_json_struct->log_counter))
                 fprintf(stderr, "Error while displaying log counter data.\n");
         }
     }
