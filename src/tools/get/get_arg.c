@@ -38,7 +38,7 @@ static bool check_arg(ask_demeter_args_t *args)
         fprintf(stderr, "Error: Invalid task id.\n");
         return (true);
     }
-    if (args->format != NULL && (strcmp(args->format, "json") != 0 &&
+    if (args->format && (strcmp(args->format, "json") != 0 &&
     strcmp(args->format, "xml") != 0 && strcmp(args->format, "csv") != 0)) {
         fprintf(stderr, "Error: Invalid format.\n");
         return (true);

@@ -16,7 +16,7 @@ int display_cgroup_tab(linked_list_t *list, ask_demeter_args_t *ask_demeter_conf
     print_line(89, true);
     printf("\t│   StepId   │  MaxMemUse │  UnderOom  │   OomKill  │ CpusetCpus │ CpusetEffectiveCpus │\n");
     print_line(89, true);
-    for (; list != NULL && list->data; list = list->next)
+    for (; list && list->data; list = list->next)
     {
         cgroup_data_struct = (cgroup_data_t *)list->data;
         if (cgroup_data_struct->step_id == UINT_MAX)

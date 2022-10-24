@@ -67,7 +67,7 @@ void display_json(linked_list_t *list, ask_demeter_args_t *ask_demeter_conf)
                 fprintf(stderr, "Error while displaying log counter data.\n");
         }
     } else {
-        for (tmp = list; tmp != NULL; tmp = tmp->next) {
+        for (tmp = list; tmp; tmp = tmp->next) {
             parsed_json_struct = (parsed_hostname_json_t *)tmp->data;
             if (!parsed_json_struct->hostname)
                 continue;
@@ -78,14 +78,14 @@ void display_json(linked_list_t *list, ask_demeter_args_t *ask_demeter_conf)
                 fprintf(stderr, "Error while displaying log counter data.\n");
         }
     }
-}
+}  
 
 void free_parsed_hostname_json_list(linked_list_t *list)
 {
     parsed_hostname_json_t *parsed_json_struct = NULL;
     linked_list_t *tmp = NULL, *old = NULL;
 
-    for (tmp = list; tmp != NULL; tmp = tmp->next) {
+    for (tmp = list; tmp; tmp = tmp->next) {
         if (old)
             free(old);
         parsed_json_struct = (parsed_hostname_json_t *)tmp->data;

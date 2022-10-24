@@ -10,9 +10,9 @@
 
 void free_args(ask_demeter_args_t *args)
 {
-    if (args->hostname != NULL)
+    if (args->hostname)
         free(args->hostname);
-    if (args->format != NULL)
+    if (args->format)
         free(args->format);
     free(args);
 }
@@ -21,7 +21,7 @@ ask_demeter_args_t *init_args(void)
 {
     ask_demeter_args_t *args = malloc(sizeof(ask_demeter_args_t));
     
-    if (args == NULL)
+    if (!args)
         return (NULL);
     args->job_id = -1;
     args->step_id = -1;

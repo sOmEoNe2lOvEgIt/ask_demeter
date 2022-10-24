@@ -15,8 +15,8 @@ int main (int ac, char **av)
     char *data = NULL;
     int ret = 0;
 
-    if ((args = init_args()) == NULL ||
-    (conf = read_conf()) == NULL ||
+    if (!(args = init_args()) ||
+    !(conf = read_conf()) ||
     get_arg(ac, av, args)) {
         ret = 84;
     }

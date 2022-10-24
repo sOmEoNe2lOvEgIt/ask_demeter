@@ -40,9 +40,9 @@ static char *get_search_adress(char *in_adress)
 {
     char *change = NULL, *adress = strdup(in_adress);
 
-    if (adress == NULL)
+    if (!adress)
         return (NULL);
-    if ((change = strstr(adress, "_doc")) != NULL) {
+    if ((change = strstr(adress, "_doc"))) {
         adress = realloc(adress, strlen(adress) + 4);
         change = strstr(adress, "_doc");
         strcpy(change, "_search");
@@ -53,7 +53,7 @@ static char *get_search_adress(char *in_adress)
 static bool get_query(char **query, ask_demeter_args_t *args)
 {
     asprintf(query, "{\"query\": {\"match\": {\"job_id\": \"%lld\"}}}", args->job_id);
-    if (*query == NULL)
+    if (!*query)
         return (false);
     return (true);
 }
@@ -67,14 +67,14 @@ char *get_demeter_json(ask_demeter_args_t *args, demeter_conf_t *conf)
     struct url_data data = {0, NULL};
 
     if (!get_query(&query, args) ||
-    (data.data = malloc(4096)) == NULL)
+    !(data.data = malloc(4096)))
         return (NULL);
     data.data[0] = '\0';
     adress = get_search_adress(conf->demeter_comp_loc);
     list = curl_slist_append(list, "Content-Type: application/json");
     if ((curl = curl_easy_init())) {
         curl_easy_setopt(curl, CURLOPT_URL, adress);
-        if (conf->demeter_comp_proxy != NULL) {
+        if (conf->demeter_comp_proxy) {
             curl_easy_setopt(curl, CURLOPT_PROXY, conf->demeter_comp_proxy);
         }
         curl_easy_setopt(curl, CURLOPT_POST, 1);
