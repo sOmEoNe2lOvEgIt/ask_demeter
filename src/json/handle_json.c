@@ -101,13 +101,7 @@ void free_parsed_hostname_json_list(linked_list_t *list)
         if (old)
             free(old);
         parsed_json_struct = (parsed_hostname_json_t *)tmp->data;
-        if (parsed_json_struct->hostname)
-            free(parsed_json_struct->hostname);
-        if (parsed_json_struct->cgroup_data)
-            free_cgroup_list(parsed_json_struct->cgroup_data);
-        if (parsed_json_struct->log_counter)
-            free_log_counter(parsed_json_struct->log_counter);
-        free(parsed_json_struct);
+        free_parsed_hostname_json(parsed_json_struct);
         old = tmp;
     }
     if (old)

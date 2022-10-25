@@ -36,6 +36,8 @@ ask_demeter_args_t *init_args(void);
 
 parsed_hostname_json_t *init_parsed_hostname_json(void);
 
+void free_parsed_hostname_json(parsed_hostname_json_t *parsed_hostname_json);
+
 void free_args(ask_demeter_args_t *args);
 
 int get_arg(int ac, char **av, ask_demeter_args_t *args);
