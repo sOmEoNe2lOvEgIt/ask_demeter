@@ -33,6 +33,8 @@ void free_parsed_hostname_json(parsed_hostname_json_t *parsed_hostname_json)
         free(parsed_hostname_json->log_counter);
     if (parsed_hostname_json->sys_slurm_logs)
         free(parsed_hostname_json->sys_slurm_logs);
+    if (parsed_hostname_json->ib_logs)
+        free(parsed_hostname_json->ib_logs);
     free_cgroup_list(parsed_hostname_json->cgroup_data);
     free(parsed_hostname_json);
 }
