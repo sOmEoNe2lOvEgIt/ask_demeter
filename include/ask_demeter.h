@@ -58,6 +58,8 @@ int display_log_counter_tab_all_nodes(linked_list_t *host_list);
 
 int display_slurm_sys_logs(parsed_hostname_json_t *parsed_json);
 
+int display_slurm_sys_logs_all_nodes(linked_list_t *parsed_json_list);
+
 void print_line(int len, bool tab);
 
 #endif /* !ASK_DEMETER_H_ */
