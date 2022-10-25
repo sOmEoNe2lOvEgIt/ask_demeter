@@ -62,7 +62,6 @@ int get_arg(int ac, char **av, ask_demeter_args_t *args)
     {"jobId", required_argument, 0, 'j'},
     {"hostname", required_argument, 0, 'H'},
     {"stepId",  required_argument, 0, 's'},
-    {"format",  required_argument, 0, 'f'},
     {"nodeset", required_argument, 0, 'n'},
     {"slurmsys-logs", no_argument, 0, 'l'},
     {"infiniband_logs", no_argument, 0, 'i'},
@@ -72,7 +71,7 @@ int get_arg(int ac, char **av, ask_demeter_args_t *args)
     int option_index = 0;
     int get_opt = 0;
 
-    while ((get_opt = getopt_long(ac, av, "hliXLj:n:H:s:f:", long_options, &option_index)) != -1) {
+    while ((get_opt = getopt_long(ac, av, "hliXLj:n:H:s:", long_options, &option_index)) != -1) {
         switch (get_opt) {
             case 'h':
                 return (help());
@@ -92,9 +91,6 @@ int get_arg(int ac, char **av, ask_demeter_args_t *args)
                     return (84);
                 }
                 args->step_id = atoi(optarg);
-                break;
-            case 'f':
-                args->format = optarg;
                 break;
             case 'n':
                 args->node_set = optarg;
