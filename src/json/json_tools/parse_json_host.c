@@ -53,7 +53,7 @@ static int get_cgroup_step_cont(json_object *jobj, parsed_hostname_json_t *parse
     json_object *jobj_element = NULL;
     cgroup_data_t *cgroup_data = NULL;
 
-    cgroup_data = alloc_cgroup_struct();
+    cgroup_data = init_cgroup_struct();
     if (!cgroup_data)
         return (1);
     cgroup_data->step_id = step_id;
