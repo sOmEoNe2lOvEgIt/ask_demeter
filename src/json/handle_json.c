@@ -54,41 +54,23 @@ static int handle_json_hosts(char *raw_json, ask_demeter_args_t *ask_demeter_con
 
 void display_json(linked_list_t *list, ask_demeter_args_t *ask_demeter_conf)
 {
-    parsed_hostname_json_t *parsed_json_struct = NULL;
-    linked_list_t *tmp = NULL;
-
-    if (!ask_demeter_conf->node_set) {
-        printf ("Cgroup data for each node:\n");
-        if (display_cgroup_tab_all_nodes(list, ask_demeter_conf))
-            fprintf(stderr, "Error while displaying cgroup data.\n");
-        if (!ask_demeter_conf->hide_log_counters) {
-            printf ("\nLog counter for each node:\n");
-            if (display_log_counter_tab_all_nodes(list))
-                fprintf(stderr, "Error while displaying log counter data.\n");
-        }
-        if (ask_demeter_conf->slurmsys_logs) {
-            printf ("\nSlurm logs for each node:\n");
-            if (display_slurm_sys_logs_all_nodes(list))
-                fprintf(stderr, "Error while displaying slurm logs.\n");
-        }
-        if (ask_demeter_conf->infiniband_logs) {
-            printf ("\nInfiniband logs for each node:\n");
-            if (display_ib_logs_all_nodes(list))
-                fprintf(stderr, "Error while displaying infiniband logs.\n");
-        }
-    } else {
-        for (tmp = list; tmp; tmp = tmp->next) {
-            parsed_json_struct = (parsed_hostname_json_t *)tmp->data;
-            if (!parsed_json_struct->hostname)
-                continue;
-            printf("\nHOST %s:\n", parsed_json_struct->hostname);
-            if (display_cgroup_tab(parsed_json_struct->cgroup_data, ask_demeter_conf))
-                fprintf(stderr, "Error while displaying cgroup data.\n");
-            if (!ask_demeter_conf->hide_log_counters && display_log_counter_tab(parsed_json_struct->log_counter))
-                fprintf(stderr, "Error while displaying log counter data.\n");
-            if (ask_demeter_conf->slurmsys_logs && display_slurm_sys_logs(parsed_json_struct))
-                fprintf(stderr, "Error while displaying slurm sys logs.\n");
-        }
+    printf ("Cgroup data for each node:\n");
+    if (display_cgroup_tab_all_nodes(list, ask_demeter_conf))
+        fprintf(stderr, "Error while displaying cgroup data.\n");
+    if (!ask_demeter_conf->hide_log_counters) {
+        printf ("\nLog counter for each node:\n");
+        if (display_log_counter_tab_all_nodes(list, ask_demeter_conf))
+            fprintf(stderr, "Error while displaying log counter data.\n");
+    }
+    if (ask_demeter_conf->slurmsys_logs) {
+        printf ("\nSlurm logs for each node:\n");
+        if (display_slurm_sys_logs_all_nodes(list))
+            fprintf(stderr, "Error while displaying slurm logs.\n");
+    }
+    if (ask_demeter_conf->infiniband_logs) {
+        printf ("\nInfiniband logs for each node:\n");
+        if (display_ib_logs_all_nodes(list))
+            fprintf(stderr, "Error while displaying infiniband logs.\n");
     }
 }  
 

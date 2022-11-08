@@ -47,10 +47,14 @@ int display_cgroup_tab_all_nodes(linked_list_t *list, ask_demeter_args_t *ask_de
         if (!tmp_cgroup->data)
             continue;
         for (;tmp_cgroup && (cgroup_data = (cgroup_data_t *)tmp_cgroup->data); tmp_cgroup = tmp_cgroup->next) {
-            if (cgroup_data->step_id == UINT_MAX)
+            if (cgroup_data->step_id == UINT_MAX &&
+            ask_demeter_conf->step_id == -1)// &&
+            // is_in_nodeset(node->hostname, ask_demeter_conf->node_set))
                 printf("│   %14s  │    BASH    │ %10d │ %10d │ %10d │ %10s │ %19s │\n",
                        node->hostname, cgroup_data->mem_max_usage_bytes, cgroup_data->under_oom, cgroup_data->oom_kill, cgroup_data->cpuset_cpus, cgroup_data->cpuset_effective_cpus);
-            else if (!ask_demeter_conf->hide_steps)
+            else if (!ask_demeter_conf->hide_steps &&
+            (ask_demeter_conf->step_id == -1 || cgroup_data->step_id == (unsigned int)ask_demeter_conf->step_id))// &&
+            // is_in_nodeset(node->hostname, ask_demeter_conf->node_set))
                 printf("│   %14s  │ %10d │ %10d │ %10d │ %10d │ %10s │ %19s │\n",
                        node->hostname, cgroup_data->step_id, cgroup_data->mem_max_usage_bytes, cgroup_data->under_oom, cgroup_data->oom_kill, cgroup_data->cpuset_cpus, cgroup_data->cpuset_effective_cpus);
         }

@@ -13,12 +13,17 @@ int main (int ac, char **av)
     ask_demeter_args_t *args = NULL;
     demeter_conf_t *conf = NULL;
     char *data = NULL;
-    int ret = 0;
+    int ret = 0, get_arg_ret = 0;
 
     if (!(args = init_args()) ||
     !(conf = read_conf()) ||
-    get_arg(ac, av, args)) {
+    (get_arg_ret = get_arg(ac, av, args)) == 84) {
         ret = 84;
+    }
+    if (get_arg_ret == 1){
+        free_args(args);
+        free_conf(conf);
+        return (0);
     }
     if (!ret && (data = get_demeter_json(args, conf))) {
         if (handle_json(data, args))

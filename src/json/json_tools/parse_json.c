@@ -36,8 +36,7 @@ int parse_json_str(json_object *raw_json, ask_demeter_args_t *ask_demeter_conf, 
             fprintf(stderr, "No step %llu for this job.\n", ask_demeter_conf->step_id);
             return (freeturn_step_key(2, step_key));
         }
-        (*output_str) = strdup((char *)json_object_to_json_string(step));
-    } else
-        (*output_str) = strdup((char *)json_object_to_json_string(source));
+    }
+    (*output_str) = strdup(json_object_to_json_string(source));
     return (freeturn_step_key(0, step_key));
 }

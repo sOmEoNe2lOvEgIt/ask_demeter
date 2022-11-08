@@ -16,12 +16,16 @@ static int help(void)
     printf("USAGE:\n\task_demeter [OPTION]...\n");
     printf("\tAsk Demeter for the info of a finished job.\n\n");
     printf("OPTIONS:\n");
-    printf("\t-h, --help\t\t\t\tDisplay this help and exit.\n");
+    printf("\t-h, --help\t\t\t\tDisplay this help and exits.\n");
     printf("\t-j, --jobId JOBID ∈ [0, max_uint32]\tThe id of the job. /!\\Required.\n");
-    printf("\t-t, --taskId TASKID ∈ [-1, max_uint32]\tThe id of the task. Default is -1, returns info for the whole job.\n");
-    printf("\t-H, --hostname HOSTNAME\t\t\tThe hostname for the job.\n");
-    printf("\t-f, --format FORMAT\t\t\tThe format of the output. Valid formats are: json, xml, csv.\n\n");
-    return (0);
+    printf("\t-s, --stepId STEPID ∈ [-1, max_uint32]\tThe id of the step. Default is -1, returns info only for the step.\n");
+    printf("\t-n, --nodeset \"NODESET\"\t\t\tThe nodeset for the job, return infos only from nodes specified.\n");
+    printf("\t-i, --infiniband-logs\t\t\tDisplay the infiniband logs.\n");
+    printf("\t-l, --slurmsys-logs\t\t\tDisplay the slurm and system logs.  /!\\ TO BE SEPARATED\n");
+    printf("\t-X, --hide-steps\t\t\tOnly show info for the \"BASH\" step.\n");
+    printf("\t-L, --hide-log-counters\t\t\tHide the log counters.  /!\\ TO BE SEPARATED\n");
+    printf("\t-f, --format FORMAT\t\t\tThe format of the output. Valid formats are: json, xml, csv.  /!\\ NOT YET IMPLEMENTED\n\n");
+    return (1);
 }
 
 static bool check_arg(ask_demeter_args_t *args)
@@ -60,7 +64,6 @@ int get_arg(int ac, char **av, ask_demeter_args_t *args)
     static struct option long_options[] =
     {{"help", no_argument, 0, 'h'},
     {"jobId", required_argument, 0, 'j'},
-    {"hostname", required_argument, 0, 'H'},
     {"stepId",  required_argument, 0, 's'},
     {"nodeset", required_argument, 0, 'n'},
     {"slurmsys-logs", no_argument, 0, 'l'},
@@ -71,7 +74,7 @@ int get_arg(int ac, char **av, ask_demeter_args_t *args)
     int option_index = 0;
     int get_opt = 0;
 
-    while ((get_opt = getopt_long(ac, av, "hliXLj:n:H:s:", long_options, &option_index)) != -1) {
+    while ((get_opt = getopt_long(ac, av, "hliXLj:n:s:", long_options, &option_index)) != -1) {
         switch (get_opt) {
             case 'h':
                 return (help());
@@ -81,9 +84,6 @@ int get_arg(int ac, char **av, ask_demeter_args_t *args)
                     return (84);
                 }
                 args->job_id = atoi(optarg);
-                break;
-            case 'H':
-                args->hostname = optarg;
                 break;
             case 's':
                 if (!is_positive_int(optarg) && strcmp(optarg, "-1") != 0) {

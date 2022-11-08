@@ -14,7 +14,6 @@
 typedef struct ask_demeter_args_s {
     long long signed job_id;
     long long signed step_id;
-    char *hostname;
     char *format;
     char *node_set;
     bool slurmsys_logs;
@@ -55,9 +54,9 @@ int display_cgroup_tab(linked_list_t *list, ask_demeter_args_t *ask_demeter_conf
 
 int display_cgroup_tab_all_nodes(linked_list_t *list, ask_demeter_args_t *ask_demeter_conf);
 
-int display_log_counter_tab(log_counter_t *log_counter);
+// int display_log_counter_tab(log_counter_t *log_counter);
 
-int display_log_counter_tab_all_nodes(linked_list_t *host_list);
+int display_log_counter_tab_all_nodes(linked_list_t *host_list, ask_demeter_args_t *demeter_args);
 
 int display_slurm_sys_logs(parsed_hostname_json_t *parsed_json);
 

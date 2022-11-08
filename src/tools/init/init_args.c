@@ -10,10 +10,10 @@
 
 void free_args(ask_demeter_args_t *args)
 {
-    if (args->hostname)
-        free(args->hostname);
     if (args->format)
         free(args->format);
+    // if (args->node_set)
+    //     free(args->node_set);
     free(args);
 }
 
@@ -25,7 +25,6 @@ ask_demeter_args_t *init_args(void)
         return (NULL);
     args->job_id = -1;
     args->step_id = -1;
-    args->hostname = NULL;
     args->format = NULL;
     args->node_set = NULL;
     args->slurmsys_logs = false;
