@@ -43,6 +43,10 @@ int get_arg(int ac, char **av, ask_demeter_args_t *args);
 
 char *get_demeter_json(ask_demeter_args_t *args, demeter_conf_t *conf);
 
+uint get_list_size (linked_list_t *list);
+
+linked_list_t *get_first_host_after_hostname(linked_list_t *list, char *best_hostname);
+
 int handle_json(char *raw_json, ask_demeter_args_t *ask_demeter_conf);
 
 int parse_json_str(json_object *raw_json, ask_demeter_args_t *ask_demeter_conf, char **output_str);
