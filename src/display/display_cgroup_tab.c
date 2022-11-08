@@ -7,24 +7,21 @@
 #include <stdio.h>
 #include "ask_demeter.h"
 
-int display_cgroup_tab_all_nodes(linked_list_t *list, ask_demeter_args_t *ask_demeter_conf)
+int display_cgroup_tab_all_nodes(linked_list_t *host_list, ask_demeter_args_t *ask_demeter_conf)
 {
     parsed_hostname_json_t *node = NULL;
     linked_list_t *tmp = NULL, *tmp_cgroup = NULL;
     cgroup_data_t *cgroup_data = NULL;
-    char *first_hostname = "";
     int size = 0;
 
     print_line(109, false);
     printf("│      Hostname     │   Stepid   │  MaxMemUse │  UnderOom  │   OomKill  │ CpusetCpus │ CpusetEffectiveCpus │\n");
     print_line(109, false);
-    size = get_list_size(list);
+    size = get_list_size(host_list);
     for (int i = 0; i < size; i++)
     {
-        if (!(tmp = get_first_host_after_hostname(list, first_hostname)))
+        if (!(tmp = get_first_host_after_hostname(host_list, node ? node->hostname : "")))
             continue;
-        else
-            first_hostname = ((parsed_hostname_json_t *)tmp->data)->hostname;
         if (!(node = (parsed_hostname_json_t *)tmp->data) || !(tmp_cgroup = node->cgroup_data))
             continue;
         for (;tmp_cgroup && !tmp_cgroup->data && tmp_cgroup->next; tmp_cgroup = tmp_cgroup->next);

@@ -63,7 +63,7 @@ void display_json(linked_list_t *list, ask_demeter_args_t *ask_demeter_conf)
             fprintf(stderr, "Error while displaying log counter data.\n");
     }
     if (ask_demeter_conf->slurmsys_logs) {
-        printf ("\nSlurm logs for each node:\n");
+        printf ("\n\nSlurm logs for each node:");
         if (display_slurm_sys_logs_all_nodes(list))
             fprintf(stderr, "Error while displaying slurm logs.\n");
     }
