@@ -12,8 +12,6 @@ void free_args(ask_demeter_args_t *args)
 {
     if (args->format)
         free(args->format);
-    // if (args->node_set)
-    //     free(args->node_set);
     free(args);
 }
 

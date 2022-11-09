@@ -23,7 +23,8 @@ SRC 				=	src/ask_demeter.c								\
 						src/json/json_tools/parse_json_host.c			\
 						src/display/display_cgroup_tab.c				\
 						src/display/display_log_counter_tab.c			\
-						src/display/display_slurm_sys_logs.c			\
+						src/display/display_sys_log.c					\
+						src/display/display_slurm_logs.c				\
 						src/display/display_ib_logs.c					\
 						src/display/print_line.c						\
 

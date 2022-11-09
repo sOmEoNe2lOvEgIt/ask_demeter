@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include "ask_demeter.h"
 
-int display_log_counter_tab_all_nodes(linked_list_t *host_list, ask_demeter_args_t *demeter_args)
+int display_log_counter_tab_all_nodes(linked_list_t *host_list, ask_demeter_args_t *demeter_args, bool is_syslog)
 {
     parsed_hostname_json_t *node = NULL;
     linked_list_t *tmp = NULL;
@@ -24,9 +24,13 @@ int display_log_counter_tab_all_nodes(linked_list_t *host_list, ask_demeter_args
             continue;
         if (!(node = (parsed_hostname_json_t *)tmp->data))
             continue;
-        if (!(log_counter = node->log_counter))
+        if (is_syslog)
+            log_counter = node->sys_log_counter;
+        else
+            log_counter = node->slurm_log_counter;
+        if (!log_counter)
             continue;
-        printf("│   %14s  │ %10d │ %10d │ %10d │ %10d │ %10d │\n", node->hostname, node->log_counter->errors, node->log_counter->warnings, node->log_counter->infos, node->log_counter->debugs, node->log_counter->fatals);
+        printf("│   %14s  │ %10d │ %10d │ %10d │ %10d │ %10d │\n", node->hostname, log_counter->errors, log_counter->warnings, log_counter->infos, log_counter->debugs, log_counter->fatals);
     }
     print_line(87, false);
     return (0);

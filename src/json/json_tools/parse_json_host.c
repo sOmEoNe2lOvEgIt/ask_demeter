@@ -22,29 +22,35 @@ static int freeturn_json_obj_str(json_object *jobj, int ret, char *str)
     return (freeturn_json_obj(jobj, ret));
 }
 
-static int get_log_counter(char *parsed_json_str, parsed_hostname_json_t *parsed_json)
+static int get_log_counter(char *parsed_json_str, parsed_hostname_json_t *parsed_json, bool is_syslog)
 {
     json_object *jobj = NULL, *jobj_element = NULL;
+    log_counter_t *log_counter = NULL;
 
+
+    if (is_syslog)
+        log_counter = parsed_json->sys_log_counter;
+    else
+        log_counter = parsed_json->slurm_log_counter;
     if (!parsed_json_str)
         return (1);
     if (!(jobj = json_tokener_parse(parsed_json_str)))
         return (freeturn_json_obj_str(jobj, 1, parsed_json_str));
     if (!(jobj_element = json_object_object_get(jobj, "fatals")))
         return (freeturn_json_obj_str(jobj, 1, parsed_json_str));
-    parsed_json->log_counter->fatals = json_object_get_uint64(jobj_element);
+    log_counter->fatals = json_object_get_uint64(jobj_element);
     if (!(jobj_element = json_object_object_get(jobj, "errors")))
         return (freeturn_json_obj_str(jobj, 1, parsed_json_str));
-    parsed_json->log_counter->errors = json_object_get_uint64(jobj_element);
+    log_counter->errors = json_object_get_uint64(jobj_element);
     if (!(jobj_element = json_object_object_get(jobj, "warnings")))
         return (freeturn_json_obj_str(jobj, 1, parsed_json_str));
-    parsed_json->log_counter->warnings = json_object_get_uint64(jobj_element);
+    log_counter->warnings = json_object_get_uint64(jobj_element);
     if (!(jobj_element = json_object_object_get(jobj, "infos")))
         return (freeturn_json_obj_str(jobj, 1, parsed_json_str));
-    parsed_json->log_counter->infos = json_object_get_uint64(jobj_element);
+    log_counter->infos = json_object_get_uint64(jobj_element);
     if (!(jobj_element = json_object_object_get(jobj, "debugs")))
         return (freeturn_json_obj_str(jobj, 1, parsed_json_str));
-    parsed_json->log_counter->debugs = json_object_get_uint64(jobj_element);
+    log_counter->debugs = json_object_get_uint64(jobj_element);
     return (freeturn_json_obj_str(jobj, 0, parsed_json_str));
 }
 
@@ -109,17 +115,30 @@ static int get_host_json(json_object *jobj, parsed_hostname_json_t *parsed_json)
         return (freeturn_json_obj(jobj, 1));
     if (!(jiobj = json_object_object_get(jobj, "job_data")))
         return (freeturn_json_obj(jobj, 1));
-    if (!(jiobj = json_object_object_get(jiobj, "log_counter")))
+    if (!(jiobj = json_object_object_get(jiobj, "slurm_log_counter")))
         return (freeturn_json_obj(jobj, 1));
-    if (get_log_counter(strdup(json_object_to_json_string(jiobj)), parsed_json))
+    if (get_log_counter(strdup(json_object_to_json_string(jiobj)), parsed_json, false))
         return (freeturn_json_obj(jobj, 1));
     if (!(jiobj = json_object_object_get(jobj, "job_data")))
         return (freeturn_json_obj(jobj, 1));
-    if (!(jiobj = json_object_object_get(jiobj, "syslogs/slurmlogs")))
+    if (!(jiobj = json_object_object_get(jiobj, "sys_log_counter")))
+        return (freeturn_json_obj(jobj, 1));
+    if (get_log_counter(strdup(json_object_to_json_string(jiobj)), parsed_json, true))
+        return (freeturn_json_obj(jobj, 1));
+    if (!(jiobj = json_object_object_get(jobj, "job_data")))
+        return (freeturn_json_obj(jobj, 1));
+    if (!(jiobj = json_object_object_get(jiobj, "slurmlogs")))
         return (freeturn_json_obj(jobj, 1));
     if (!(jiobj = json_object_object_get(jiobj, "data")))
         return (freeturn_json_obj(jobj, 1));
-    parsed_json->sys_slurm_logs = strdup(json_object_get_string(jiobj));
+    parsed_json->slurm_logs = strdup(json_object_get_string(jiobj));
+    if (!(jiobj = json_object_object_get(jobj, "job_data")))
+        return (freeturn_json_obj(jobj, 1));
+    if (!(jiobj = json_object_object_get(jiobj, "syslogs")))
+        return (freeturn_json_obj(jobj, 1));
+    if (!(jiobj = json_object_object_get(jiobj, "data")))
+        return (freeturn_json_obj(jobj, 1));
+    parsed_json->sys_logs = strdup(json_object_get_string(jiobj));
     if (!(jiobj = json_object_object_get(jobj, "job_data")))
         return (freeturn_json_obj(jobj, 1));
     if (!(jiobj = json_object_object_get(jiobj, "sel_logs")))

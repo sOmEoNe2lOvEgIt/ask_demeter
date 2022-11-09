@@ -7,20 +7,20 @@
 #include <stdio.h>
 #include "ask_demeter.h"
 
-int display_slurm_sys_logs(parsed_hostname_json_t *parsed_json)
+int display_slurm_logs(parsed_hostname_json_t *parsed_json)
 {
     if (!parsed_json)
         return (1);
     printf("\n\n\n");
     print_line(100, false);
-    printf ("\t\t%s LOGS:\n", parsed_json->hostname);
+    printf ("\t\t%s SLURM LOGS:\n", parsed_json->hostname);
     print_line(100, false);
-    printf ("%s", parsed_json->sys_slurm_logs);
+    printf ("%s", parsed_json->slurm_logs);
     print_line(100, false);
     return (0);
 }
 
-int display_slurm_sys_logs_all_nodes(linked_list_t *host_list)
+int display_slurm_logs_all_nodes(linked_list_t *host_list)
 {
     parsed_hostname_json_t *parsed_json = NULL;
     linked_list_t *tmp = NULL;
@@ -34,7 +34,7 @@ int display_slurm_sys_logs_all_nodes(linked_list_t *host_list)
             continue;
         if (!(parsed_json = (parsed_hostname_json_t *)tmp->data))
             continue;
-        if (display_slurm_sys_logs(parsed_json))
+        if (display_slurm_logs(parsed_json))
             return (1);
     }
     return (0);

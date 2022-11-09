@@ -58,14 +58,20 @@ void display_json(linked_list_t *list, ask_demeter_args_t *ask_demeter_conf)
     if (display_cgroup_tab_all_nodes(list, ask_demeter_conf))
         fprintf(stderr, "Error while displaying cgroup data.\n");
     if (!ask_demeter_conf->hide_log_counters) {
-        printf ("\nLog counter for each node:\n");
-        if (display_log_counter_tab_all_nodes(list, ask_demeter_conf))
+        printf ("\nSLURM log counter for each node:\n");
+        if (display_log_counter_tab_all_nodes(list, ask_demeter_conf, false))
+            fprintf(stderr, "Error while displaying log counter data.\n");
+        printf ("\nSYSTEM log counter for each node:\n");
+        if (display_log_counter_tab_all_nodes(list, ask_demeter_conf, true))
             fprintf(stderr, "Error while displaying log counter data.\n");
     }
     if (ask_demeter_conf->slurmsys_logs) {
         printf ("\n\nSlurm logs for each node:");
-        if (display_slurm_sys_logs_all_nodes(list))
+        if (display_slurm_logs_all_nodes(list))
             fprintf(stderr, "Error while displaying slurm logs.\n");
+        printf ("\n\nSys logs for each node:");
+        if (display_sys_logs_all_nodes(list))
+            fprintf(stderr, "Error while displaying sys logs.\n");
     }
     if (ask_demeter_conf->infiniband_logs) {
         printf ("\nInfiniband logs for each node:\n");
