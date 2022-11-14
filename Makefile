@@ -26,6 +26,7 @@ SRC 				=	src/ask_demeter.c								\
 						src/display/display_sys_log.c					\
 						src/display/display_slurm_logs.c				\
 						src/display/display_ib_logs.c					\
+						src/display/display_sel_counters.c				\
 						src/display/print_line.c						\
 
 CC					=	gcc

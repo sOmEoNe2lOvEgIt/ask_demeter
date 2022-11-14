@@ -31,6 +31,7 @@ typedef struct parsed_hostname_json_s {
     char *sys_logs;
     char *slurm_logs;
     char *ib_logs;
+    char *sel_counters;
 } parsed_hostname_json_t;
 
 ask_demeter_args_t *init_args(void);
@@ -71,6 +72,8 @@ int display_slurm_sys_logs_all_nodes(linked_list_t *parsed_json_list);
 int display_ib_logs(parsed_hostname_json_t *parsed_json);
 
 int display_ib_logs_all_nodes(linked_list_t *parsed_json_list);
+
+int display_sel_counters_tab_all_nodes(linked_list_t *host_list, ask_demeter_args_t *demeter_args);
 
 void print_line(int len, bool tab);
 

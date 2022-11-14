@@ -21,6 +21,7 @@ parsed_hostname_json_t *init_parsed_hostname_json(void)
     parsed_hostname_json->slurm_logs = NULL;
     parsed_hostname_json->sys_logs = NULL;
     parsed_hostname_json->ib_logs = NULL;
+    parsed_hostname_json->sel_counters = NULL;
     return (parsed_hostname_json);
 }
 
@@ -40,6 +41,8 @@ void free_parsed_hostname_json(parsed_hostname_json_t *parsed_hostname_json)
         free(parsed_hostname_json->sys_logs);
     if (parsed_hostname_json->ib_logs)
         free(parsed_hostname_json->ib_logs);
+    if (parsed_hostname_json->sel_counters)
+        free(parsed_hostname_json->sel_counters);
     free_cgroup_list(parsed_hostname_json->cgroup_data);
     free(parsed_hostname_json);
 }
