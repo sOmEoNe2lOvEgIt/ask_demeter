@@ -68,13 +68,15 @@ int get_arg(int ac, char **av, ask_demeter_args_t *args)
     {"nodeset", required_argument, 0, 'n'},
     {"slurmsys-logs", no_argument, 0, 'l'},
     {"infiniband_logs", no_argument, 0, 'i'},
+    {"infiniband_counters", no_argument, 0, 'I'},
+    {"infiniband_extended", no_argument, 0, 'E'},
     {"hideSteps", no_argument, 0, 'X'},
     {"hideLogCounters", no_argument, 0, 'L'},
     {0, 0, 0, 0}};
     int option_index = 0;
     int get_opt = 0;
 
-    while ((get_opt = getopt_long(ac, av, "hliXLj:n:s:", long_options, &option_index)) != -1) {
+    while ((get_opt = getopt_long(ac, av, "hliXLIEj:n:s:", long_options, &option_index)) != -1) {
         switch (get_opt) {
             case 'h':
                 return (help());
@@ -106,6 +108,16 @@ int get_arg(int ac, char **av, ask_demeter_args_t *args)
                 break;
             case 'L':
                 args->hide_log_counters = true;
+                break;
+            case 'I':
+                args->infiniband_counters = true;
+                break;
+            case 'E':
+                if (!args->infiniband_counters) {
+                    fprintf(stderr, "Error: Cannot use --infiniband_extended without --infiniband_counters.\n");
+                    return (84);
+                }
+                args->infiniband_extended = true;
                 break;
             default:
                 fprintf(stderr, "Error: Invalid option.\n");

@@ -18,6 +18,8 @@ typedef struct ask_demeter_args_s {
     char *node_set;
     bool slurmsys_logs;
     bool infiniband_logs;
+    bool infiniband_counters;
+    bool infiniband_extended;
     bool hide_steps;
     bool hide_log_counters;
 } ask_demeter_args_t;
@@ -74,6 +76,8 @@ int display_ib_logs(parsed_hostname_json_t *parsed_json);
 int display_ib_logs_all_nodes(linked_list_t *parsed_json_list);
 
 int display_sel_counters_tab_all_nodes(linked_list_t *host_list, ask_demeter_args_t *demeter_args);
+
+int display_sel_counters_err_all_nodes(linked_list_t *host_list, ask_demeter_args_t *demeter_args);
 
 void print_line(int len, bool tab);
 

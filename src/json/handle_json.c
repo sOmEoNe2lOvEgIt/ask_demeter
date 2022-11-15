@@ -77,10 +77,14 @@ void display_json(linked_list_t *list, ask_demeter_args_t *ask_demeter_conf)
         printf ("\nInfiniband logs for each node:\n");
         if (display_ib_logs_all_nodes(list))
             fprintf(stderr, "Error while displaying infiniband logs.\n");
-    }  
-    printf("\nSel (infiniband) counters for each node:\n");
-    if (display_sel_counters_tab_all_nodes(list, ask_demeter_conf))
-        fprintf(stderr, "Error while displaying sel counters data.\n");
+    }
+    if (ask_demeter_conf->infiniband_counters) {
+        printf("\nSEL (infiniband) counters for each node:\n");
+        if (display_sel_counters_tab_all_nodes(list, ask_demeter_conf))
+            fprintf(stderr, "Error while displaying sel counters data.\n");
+        if (display_sel_counters_err_all_nodes(list, ask_demeter_conf))
+            fprintf(stderr, "Error while displaying sel counters data.\n");
+    }
 }  
 
 void free_parsed_hostname_json_list(linked_list_t *list)
