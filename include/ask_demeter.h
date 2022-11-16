@@ -16,6 +16,7 @@ typedef struct ask_demeter_args_s {
     long long signed step_id;
     char *format;
     char *node_set;
+    bool logs;
     bool slurm_logs;
     bool sys_logs;
     bool infiniband_logs;

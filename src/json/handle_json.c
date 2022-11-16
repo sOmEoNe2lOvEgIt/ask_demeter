@@ -52,19 +52,8 @@ static int handle_json_hosts(char *raw_json, ask_demeter_args_t *ask_demeter_con
     return (freeturn_json_object(parsed_json, ret, NULL));
 }
 
-void display_json(linked_list_t *list, ask_demeter_args_t *ask_demeter_conf)
+static void display_logs(linked_list_t *list, ask_demeter_args_t *ask_demeter_conf)
 {
-    printf ("Cgroup data for each node:\n");
-    if (display_cgroup_tab_all_nodes(list, ask_demeter_conf))
-        fprintf(stderr, "Error while displaying cgroup data.\n");
-    if (!ask_demeter_conf->hide_log_counters) {
-        printf ("\nSLURM log counter for each node:\n");
-        if (display_log_counter_tab_all_nodes(list, ask_demeter_conf, false))
-            fprintf(stderr, "Error while displaying log counter data.\n");
-        printf ("\nSYSTEM log counter for each node:\n");
-        if (display_log_counter_tab_all_nodes(list, ask_demeter_conf, true))
-            fprintf(stderr, "Error while displaying log counter data.\n");
-    }
     if (ask_demeter_conf->slurm_logs) {
         printf ("\n\nSlurm logs for each node:");
         if (display_slurm_logs_all_nodes(list))
@@ -78,6 +67,25 @@ void display_json(linked_list_t *list, ask_demeter_args_t *ask_demeter_conf)
         printf ("\nInfiniband logs for each node:\n");
         if (display_ib_logs_all_nodes(list))
             fprintf(stderr, "Error while displaying infiniband logs.\n");
+    }
+}
+
+static void display_json(linked_list_t *list, ask_demeter_args_t *ask_demeter_conf)
+{
+    if (ask_demeter_conf->logs) {
+        display_logs(list, ask_demeter_conf);
+        return;   
+    }
+    printf ("Cgroup data for each node:\n");
+    if (display_cgroup_tab_all_nodes(list, ask_demeter_conf))
+        fprintf(stderr, "Error while displaying cgroup data.\n");
+    if (!ask_demeter_conf->hide_log_counters && !ask_demeter_conf->logs) {
+        printf ("\nSLURM log counter for each node:\n");
+        if (display_log_counter_tab_all_nodes(list, ask_demeter_conf, false))
+            fprintf(stderr, "Error while displaying log counter data.\n");
+        printf ("\nSYSTEM log counter for each node:\n");
+        if (display_log_counter_tab_all_nodes(list, ask_demeter_conf, true))
+            fprintf(stderr, "Error while displaying log counter data.\n");
     }
     if (ask_demeter_conf->infiniband_counters) {
         printf("\nSEL (infiniband) counters for each node:\n");

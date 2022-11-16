@@ -21,6 +21,8 @@ static int help(void)
     printf("\t-s, --stepId STEPID ∈ [-1, max_uint32]\tThe id of the step. Default is -1, returns info only for the step.\n");
     printf("\t-n, --nodeset \"NODESET\"\t\t\tThe nodeset for the job, return infos only from nodes specified.\n");
     printf("\t-i, --infiniband-logs\t\t\tDisplay the infiniband logs.\n");
+    printf("\t-I, --infiniband-counters\t\tDisplay the infiniband counters.\n");
+    printf("\t-e, --infiniband-extended\t\tDisplay extra infiniband counters. (only with -I specified)\n");
     printf("\t-l, --slurm-logs\t\t\tDisplay the slurm logs.\n");
     printf("\t-y, --sys-logs\t\t\tDisplay the system logs.\n");
     printf("\t-X, --hide-steps\t\t\tOnly show info for the \"BASH\" step.\n");
@@ -43,8 +45,8 @@ static bool check_arg(ask_demeter_args_t *args)
         fprintf(stderr, "Error: Invalid task id.\n");
         return (true);
     }
-    if (args->format && (strcmp(args->format, "json") != 0 &&
-    strcmp(args->format, "xml") != 0 && strcmp(args->format, "csv") != 0)) {
+    if (args->format && (strcmp(args->format, "json") != 0)) {
+    //ARGS NOT IMPLEMENTED YET ---> strcmp(args->format, "xml") != 0 && strcmp(args->format, "csv") != 0)) {
         fprintf(stderr, "Error: Invalid format.\n");
         return (true);
     }
@@ -69,11 +71,12 @@ int get_arg(int ac, char **av, ask_demeter_args_t *args)
     {"nodeset", required_argument, 0, 'n'},
     {"slurm-logs", no_argument, 0, 'l'},
     {"sys-logs", no_argument, 0, 'y'},
-    {"infiniband_logs", no_argument, 0, 'i'},
-    {"infiniband_counters", no_argument, 0, 'I'},
-    {"infiniband_extended", no_argument, 0, 'E'},
-    {"hideSteps", no_argument, 0, 'X'},
-    {"hideLogCounters", no_argument, 0, 'C'},
+    {"infiniband-logs", no_argument, 0, 'i'},
+    {"infiniband-counters", no_argument, 0, 'I'},
+    {"infiniband-extended", no_argument, 0, 'E'},
+    {"hide-steps", no_argument, 0, 'X'},
+    {"hide-log-counters", no_argument, 0, 'C'},
+    {"format", required_argument, 0, 'f'},
     {0, 0, 0, 0}};
     int option_index = 0;
     int get_opt = 0;
@@ -101,12 +104,15 @@ int get_arg(int ac, char **av, ask_demeter_args_t *args)
                 break;
             case 'l':
                 args->slurm_logs = true;
+                args->logs = true;
                 break;
             case 'y':
                 args->sys_logs = true;
+                args->logs = true;
                 break;
             case 'i':
                 args->infiniband_logs = true;
+                args->logs = true;
                 break;
             case 'X':
                 args->hide_steps = true;
@@ -123,6 +129,9 @@ int get_arg(int ac, char **av, ask_demeter_args_t *args)
                     return (84);
                 }
                 args->infiniband_extended = true;
+                break;
+            case 'f':
+                args->format = optarg;
                 break;
             default:
                 fprintf(stderr, "Error: Invalid option.\n");
