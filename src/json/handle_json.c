@@ -114,9 +114,15 @@ void free_parsed_hostname_json_list(linked_list_t *list)
 
 int handle_json(char *raw_json, ask_demeter_args_t *ask_demeter_conf)
 {
-    int ret = 0;
     linked_list_t *parsed_json_list = NULL;
 
+    if (ask_demeter_conf->format &&
+        (strcmp(ask_demeter_conf->format, "json") == 0)) {
+        print_line(130, false);
+        printf("%s\n", raw_json);
+        print_line(130, false);
+        return(0);
+    }
     switch(handle_json_hosts(raw_json, ask_demeter_conf, &parsed_json_list)) {
         case 0:
             break;
@@ -126,7 +132,8 @@ int handle_json(char *raw_json, ask_demeter_args_t *ask_demeter_conf)
         default:
             return (1);
     }
-    display_json(parsed_json_list, ask_demeter_conf);
+    if (!ask_demeter_conf->format)
+        display_json(parsed_json_list, ask_demeter_conf);
     free_parsed_hostname_json_list(parsed_json_list);
-    return (ret);
+    return (0);
 }

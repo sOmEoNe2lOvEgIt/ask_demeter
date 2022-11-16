@@ -10,8 +10,6 @@
 
 void free_args(ask_demeter_args_t *args)
 {
-    if (args->format)
-        free(args->format);
     free(args);
 }
 

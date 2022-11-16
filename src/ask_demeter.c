@@ -21,17 +21,22 @@ int main (int ac, char **av)
         ret = 84;
     }
     if (get_arg_ret == 1){
-        free_args(args);
-        free_conf(conf);
+        if (args)
+            free_args(args);
+        if (conf)
+            free_conf(conf);
         return (0);
     }
     if (!ret && (data = get_demeter_json(args, conf))) {
         if (handle_json(data, args))
             ret = 84;
-        free(data);
+        if (data)
+            free(data);
     } else
         ret = 84;
-    free_args(args);
-    free_conf(conf);
+    if (args)
+        free_args(args);
+    if (conf)
+        free_conf(conf);
     return (ret);
 }

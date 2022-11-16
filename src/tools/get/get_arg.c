@@ -81,7 +81,7 @@ int get_arg(int ac, char **av, ask_demeter_args_t *args)
     int option_index = 0;
     int get_opt = 0;
 
-    while ((get_opt = getopt_long(ac, av, "hlyiXCIEj:n:s:", long_options, &option_index)) != -1) {
+    while ((get_opt = getopt_long(ac, av, "hlyiXCIEj:n:s:f:", long_options, &option_index)) != -1) {
         switch (get_opt) {
             case 'h':
                 return (help());
