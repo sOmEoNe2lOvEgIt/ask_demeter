@@ -21,9 +21,10 @@ static int help(void)
     printf("\t-s, --stepId STEPID ∈ [-1, max_uint32]\tThe id of the step. Default is -1, returns info only for the step.\n");
     printf("\t-n, --nodeset \"NODESET\"\t\t\tThe nodeset for the job, return infos only from nodes specified.\n");
     printf("\t-i, --infiniband-logs\t\t\tDisplay the infiniband logs.\n");
-    printf("\t-l, --slurmsys-logs\t\t\tDisplay the slurm and system logs.  /!\\ TO BE SEPARATED\n");
+    printf("\t-l, --slurm-logs\t\t\tDisplay the slurm logs.\n");
+    printf("\t-y, --sys-logs\t\t\tDisplay the system logs.\n");
     printf("\t-X, --hide-steps\t\t\tOnly show info for the \"BASH\" step.\n");
-    printf("\t-L, --hide-log-counters\t\t\tHide the log counters.  /!\\ TO BE SEPARATED\n");
+    printf("\t-C, --hide-log-counters\t\t\tHide the log counters.  /!\\ TO BE SEPARATED\n");
     printf("\t-f, --format FORMAT\t\t\tThe format of the output. Valid formats are: json, xml, csv.  /!\\ NOT YET IMPLEMENTED\n\n");
     return (1);
 }
@@ -66,17 +67,18 @@ int get_arg(int ac, char **av, ask_demeter_args_t *args)
     {"jobId", required_argument, 0, 'j'},
     {"stepId",  required_argument, 0, 's'},
     {"nodeset", required_argument, 0, 'n'},
-    {"slurmsys-logs", no_argument, 0, 'l'},
+    {"slurm-logs", no_argument, 0, 'l'},
+    {"sys-logs", no_argument, 0, 'y'},
     {"infiniband_logs", no_argument, 0, 'i'},
     {"infiniband_counters", no_argument, 0, 'I'},
     {"infiniband_extended", no_argument, 0, 'E'},
     {"hideSteps", no_argument, 0, 'X'},
-    {"hideLogCounters", no_argument, 0, 'L'},
+    {"hideLogCounters", no_argument, 0, 'C'},
     {0, 0, 0, 0}};
     int option_index = 0;
     int get_opt = 0;
 
-    while ((get_opt = getopt_long(ac, av, "hliXLIEj:n:s:", long_options, &option_index)) != -1) {
+    while ((get_opt = getopt_long(ac, av, "hlyiXCIEj:n:s:", long_options, &option_index)) != -1) {
         switch (get_opt) {
             case 'h':
                 return (help());
@@ -98,7 +100,10 @@ int get_arg(int ac, char **av, ask_demeter_args_t *args)
                 args->node_set = optarg;
                 break;
             case 'l':
-                args->slurmsys_logs = true;
+                args->slurm_logs = true;
+                break;
+            case 'y':
+                args->sys_logs = true;
                 break;
             case 'i':
                 args->infiniband_logs = true;
@@ -106,7 +111,7 @@ int get_arg(int ac, char **av, ask_demeter_args_t *args)
             case 'X':
                 args->hide_steps = true;
                 break;
-            case 'L':
+            case 'C':
                 args->hide_log_counters = true;
                 break;
             case 'I':

@@ -25,7 +25,8 @@ ask_demeter_args_t *init_args(void)
     args->step_id = -1;
     args->format = NULL;
     args->node_set = NULL;
-    args->slurmsys_logs = false;
+    args->slurm_logs = false;
+    args->sys_logs = false;
     args->infiniband_logs = false;
     args->infiniband_counters = false;
     args->infiniband_extended = false;
