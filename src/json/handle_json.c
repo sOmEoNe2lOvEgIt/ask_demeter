@@ -126,10 +126,8 @@ static void print_json_as_csv(char *raw_json)
         return;
     fprintf(tmp_file, "%s", json_object_to_json_string(hits));
     fclose(tmp_file);
-    // if (asprintf(&python_cmd, "python3 %s/src/json_to_csv.py", ASK_DEMETER_PATH) == -1)
-    //     return;
-    if (asprintf(&python_cmd, "./src/json_to_csv.py /tmp/demeter_tmp.json") == -1)  // TEMPORARY, TO REPLACE WITH THE LINES ABOVE
-        return;                                                                     // TEMPORARY, TO REPLACE WITH THE LINES ABOVE
+    if (asprintf(&python_cmd, "%ssrc/json_to_csv.py /tmp/demeter_tmp.json", ASK_DEMETER_PATH) == -1)
+        return;
     print_line(130, false);
     system(python_cmd);
     print_line(130, false);
