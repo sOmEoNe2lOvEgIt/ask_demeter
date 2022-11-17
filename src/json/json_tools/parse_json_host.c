@@ -75,6 +75,9 @@ static int get_cgroup_step_cont(json_object *jobj, parsed_hostname_json_t *parse
     if (!(jobj_element = json_object_object_get(jobj, "under_oom")))
         return (1);
     cgroup_data->under_oom = atol(json_object_get_string(jobj_element));
+    if (!(jobj_element = json_object_object_get(jobj, "oom_kill")))
+        return (1);
+    cgroup_data->oom_kill = atol(json_object_get_string(jobj_element));
     parsed_json->cgroup_data = add_to_list(parsed_json->cgroup_data, cgroup_data);
     return (0);
 }
