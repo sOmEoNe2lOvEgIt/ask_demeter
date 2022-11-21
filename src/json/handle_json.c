@@ -40,11 +40,15 @@ static int handle_json_hosts(char *raw_json, ask_demeter_args_t *ask_demeter_con
             case 1:
                 fprintf(stderr, "Error while parsing json.\n");
                 ret = 1;
+                break;
+            case 2:
+                ret = 2;
+                break;
             default:
                 ret = 1;
         }
-        if (output_str){
-            if (parse_json_host(output_str, ask_demeter_conf, parsed_json_struct))
+        if (output_str) {
+            if (!ret && parse_json_host(output_str, ask_demeter_conf, parsed_json_struct))
                ret = 1;
             free(output_str);
         }
@@ -125,13 +129,16 @@ static void print_json_as_csv(char *raw_json)
     if (!(hits = json_object_object_get(parsed_json, "hits")))
         return;
     fprintf(tmp_file, "%s", json_object_to_json_string(hits));
-    fclose(tmp_file);
+    if (tmp_file)
+        fclose(tmp_file);
     if (asprintf(&python_cmd, "%ssrc/json_to_csv.py /tmp/demeter_tmp.json", ASK_DEMETER_PATH) == -1)
         return;
     print_line(130, false);
     system(python_cmd);
     print_line(130, false);
-    free(python_cmd);
+    if (python_cmd)
+        free(python_cmd);
+    freeturn_json_object(parsed_json, 0, NULL);
     remove("/tmp/demeter_tmp.json");
 }
 
@@ -153,6 +160,7 @@ static int display_each_format(char *raw_json, ask_demeter_args_t *ask_demeter_c
 int handle_json(char *raw_json, ask_demeter_args_t *ask_demeter_conf)
 {
     linked_list_t *parsed_json_list = NULL;
+    int ret = 0;
 
     if (ask_demeter_conf->format)
         return (display_each_format(raw_json, ask_demeter_conf));
@@ -161,12 +169,12 @@ int handle_json(char *raw_json, ask_demeter_args_t *ask_demeter_conf)
             break;
         case 1:
             fprintf(stderr, "Error while parsing json.\n");
-            return (1);
+            ret = 1;
         default:
-            return (1);
+            ret = 1;
     }
-    if (!ask_demeter_conf->format)
+    if (!ask_demeter_conf->format && !ret)
         display_json(parsed_json_list, ask_demeter_conf);
     free_parsed_hostname_json_list(parsed_json_list);
-    return (0);
+    return (ret);
 }
