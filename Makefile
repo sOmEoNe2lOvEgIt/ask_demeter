@@ -6,8 +6,8 @@
 ##
 
 SLURM_INCLUDE_DIR	=	/root/SLURM/slurm.build
-LIB_DEMETER			=	/home/atos/lib_demeter
-DEMETER_RUN_PATH	=	/home/atos/lib_demeter/
+LIB_DEMETER			=	/home/atos/demeter/lib_demeter
+DEMETER_RUN_PATH	=	/home/atos/demeter/lib_demeter/
 
 NAME				=	ask_demeter
 

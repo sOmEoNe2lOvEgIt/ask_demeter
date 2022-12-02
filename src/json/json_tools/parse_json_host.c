@@ -94,7 +94,7 @@ static int get_host_cgroup(json_object *jobj, parsed_hostname_json_t *parsed_jso
         sprintf(step_str, "step_%u", step_id);
     }
     if (!(jobj_element = json_object_object_get(jobj, "no_step")))
-        return (1);
+        return (0);
     if (get_cgroup_step_cont(jobj_element, parsed_json, UINT_MAX))
         return (1);
     return (0);

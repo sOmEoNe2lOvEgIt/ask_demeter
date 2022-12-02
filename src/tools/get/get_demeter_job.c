@@ -83,6 +83,8 @@ char *get_demeter_json(ask_demeter_args_t *args, demeter_conf_t *conf)
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, list);
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &data);
+        curl_easy_setopt(curl, CURLOPT_USERNAME, conf->demeter_comp_usr);
+        curl_easy_setopt(curl, CURLOPT_PASSWORD, conf->demeter_comp_psswd);
         if ((res = curl_easy_perform(curl)) != CURLE_OK)
             fprintf(stderr, "curl_easy_perform() failed:  %s\n", curl_easy_strerror(res));
     }
