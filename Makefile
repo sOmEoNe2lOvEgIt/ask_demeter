@@ -28,7 +28,7 @@ SRC 				=	src/ask_demeter.c								\
 						src/display/print_line.c						\
 
 CC					=	gcc
-CFLAGS				?=	-Wall -g3 -Iinclude -I$(SLURM_INC_DIR) -I$(DEMETER_LIB_DIR)/include -Wl,-rpath=$(DEMETER_RUN_PATH)
+CFLAGS				?=	-std=gnu11 -Wall -g3 -Iinclude -I$(SLURM_INC_DIR) -I$(DEMETER_LIB_DIR)/include -Wl,-rpath=$(DEMETER_RUN_PATH)
 LDFLAGS				?=  -lcurl -ljson-c -L$(DEMETER_LIB_DIR) -ldemeter
 
 all:			$(NAME)
