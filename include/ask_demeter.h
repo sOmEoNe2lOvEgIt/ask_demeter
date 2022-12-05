@@ -6,7 +6,7 @@
 
 
 #ifndef ASK_DEMETER_PATH
-#define ASK_DEMETER_PATH  "/home/atos/ask_demeter/"
+#define ASK_DEMETER_PATH  "/home/atos/demeter/ask_demeter/"
 #endif
 
 // #ifndef ASK_DEMETER_PATH

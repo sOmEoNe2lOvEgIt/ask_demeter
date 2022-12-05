@@ -5,9 +5,7 @@
 ## Wow, such make, much file!
 ##
 
-SLURM_INCLUDE_DIR	=	/root/SLURM/slurm.build
-LIB_DEMETER			=	/home/atos/demeter/lib_demeter
-DEMETER_RUN_PATH	=	/home/atos/demeter/lib_demeter/
+include ./Makefile.inc
 
 NAME				=	ask_demeter
 
@@ -30,8 +28,8 @@ SRC 				=	src/ask_demeter.c								\
 						src/display/print_line.c						\
 
 CC					=	gcc
-CFLAGS				?=	-Wall -g3 -Iinclude -I$(LIB_DEMETER)/include -I$(SLURM_INCLUDE_DIR) -Wl,-rpath=$(DEMETER_RUN_PATH)
-LDFLAGS				?=  -lcurl -L$(LIB_DEMETER) -ldemeter -ljson-c
+CFLAGS				?=	-Wall -g3 -Iinclude -I$(SLURM_INC_DIR) -I$(DEMETER_LIB_DIR)/include
+LDFLAGS				?=  -lcurl -ljson-c -L$(DEMETER_LIB_DIR) -ldemeter
 
 all:			$(NAME)
 
