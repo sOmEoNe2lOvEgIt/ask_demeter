@@ -7,3 +7,4 @@
 
 SLURM_INC_DIR		=	/root/SLURM/slurm.build
 DEMETER_LIB_DIR		=	/home/atos/demeter/lib_demeter
+DEMETER_RUN_PATH    =   /home/atos/demeter/lib_demeter
