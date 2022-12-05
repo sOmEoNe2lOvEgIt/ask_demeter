@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include "ask_demeter.h"
 #ifndef UINT_MAX
-#define UINT_MAX 2147483647
+#define UINT_MAX 4294967295
 #endif
 
 int display_cgroup_tab_all_nodes(linked_list_t *host_list, ask_demeter_args_t *ask_demeter_conf)

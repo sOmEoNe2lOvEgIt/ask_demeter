@@ -8,6 +8,9 @@
 #include <stdio.h>
 #include <json-c/json.h>
 #include "ask_demeter.h"
+#ifndef UINT_MAX
+#define UINT_MAX 4294967295
+#endif
 
 static int freeturn_json_obj(json_object *jobj, int ret)
 {
