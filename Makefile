@@ -46,6 +46,12 @@ install:	all
 		cp ./src/json_to_csv.py /bin/ask_demeter_scripts
 		cp $(NAME) /bin
 
+uninstall:	clean
+		rm -dr /bin/ask_demeter_scripts
+		rm /bin/ask_demeter
+
+remove:		uninstall
+
 clean:
 		rm -f $(NAME)
 
