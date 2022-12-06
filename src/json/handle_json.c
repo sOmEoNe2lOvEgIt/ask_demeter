@@ -131,7 +131,7 @@ static void print_json_as_csv(char *raw_json)
     fprintf(tmp_file, "%s", json_object_to_json_string(hits));
     if (tmp_file)
         fclose(tmp_file);
-    if (asprintf(&python_cmd, "%ssrc/json_to_csv.py /tmp/demeter_tmp.json", ASK_DEMETER_PATH) == -1)
+    if (asprintf(&python_cmd, "%s/json_to_csv.py /tmp/demeter_tmp.json", ASK_DEMETER_SCRIPTS_PATH) == -1)
         return;
     print_line(130, false);
     system(python_cmd);

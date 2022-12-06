@@ -4,14 +4,9 @@
 // Wow, so many includes, much code, very program!
 //___________________________________________________________________________________________________________________________________________
 
-
-#ifndef ASK_DEMETER_PATH
-#define ASK_DEMETER_PATH  "/home/atos/demeter/ask_demeter/"
+#ifndef ASK_DEMETER_SCRIPTS_PATH
+#define ASK_DEMETER_SCRIPTS_PATH  "/bin/ask_demeter_scripts"
 #endif
-
-// #ifndef ASK_DEMETER_PATH
-// #define ASK_DEMETER_PATH  "/bin/ask_demeter"
-// #endif
 
 #ifndef ASK_DEMETER_H_
 #define ASK_DEMETER_H_

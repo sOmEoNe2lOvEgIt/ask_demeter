@@ -41,6 +41,11 @@ $(NAME):	$(SRC)
 send:	all
 		scp $(NAME) my_vm:/home/compose_fake_taranis/shared/
 
+install:	all
+		mkdir -p /bin/ask_demeter_scripts
+		cp ./src/json_to_csv.py /bin/ask_demeter_scripts
+		cp $(NAME) /bin
+
 clean:
 		rm -f $(NAME)
 
