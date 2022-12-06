@@ -25,34 +25,34 @@ static perf_data_t *get_sel_from_json(char *json)
         return(NULL);
     if (!(perf_data = malloc(sizeof(perf_data_t))))
         return(freeturn_json_object(parsed_json, NULL, NULL));
-    if (!(hits = json_object_object_get(parsed_json, "counterselect")))
+    if (!json_object_object_get_ex(parsed_json, "counterselect", &hits))
         return(freeturn_json_object(parsed_json, NULL, perf_data));
     perf_data->counterselect = atoll(json_object_to_json_string(hits));
-    if (!(hits = json_object_object_get(parsed_json, "linkdowned")))
+    if (!json_object_object_get_ex(parsed_json, "linkdowned", &hits))
         return(freeturn_json_object(parsed_json, NULL, perf_data));
     perf_data->linkdowned = atoll(json_object_to_json_string(hits));
-    if (!(hits = json_object_object_get(parsed_json, "portselect")))
+    if (!json_object_object_get_ex(parsed_json, "portselect", &hits))
         return(freeturn_json_object(parsed_json, NULL, perf_data));
     perf_data->portselect = atoll(json_object_to_json_string(hits));
-    if (!(hits = json_object_object_get(parsed_json, "qp1dropped")))
+    if (!json_object_object_get_ex(parsed_json, "qp1dropped", &hits))
         return(freeturn_json_object(parsed_json, NULL, perf_data));
     perf_data->qp1dropped = atoll(json_object_to_json_string(hits));
-    if (!(hits = json_object_object_get(parsed_json, "rcvdata")))
+    if (!json_object_object_get_ex(parsed_json, "rcvdata", &hits))
         return(freeturn_json_object(parsed_json, NULL, perf_data));
     perf_data->rcvdata = atoll(json_object_to_json_string(hits));
-    if (!(hits = json_object_object_get(parsed_json, "rcvpkts")))
+    if (!json_object_object_get_ex(parsed_json, "rcvpkts", &hits))
         return(freeturn_json_object(parsed_json, NULL, perf_data));
     perf_data->rcvpkts = atoll(json_object_to_json_string(hits));
-    if (!(hits = json_object_object_get(parsed_json, "vl15dropped")))
+    if (!json_object_object_get_ex(parsed_json, "vl15dropped", &hits))
         return(freeturn_json_object(parsed_json, NULL, perf_data));
     perf_data->vl15dropped = atoll(json_object_to_json_string(hits));
-    if (!(hits = json_object_object_get(parsed_json, "xmitdata")))
+    if (!json_object_object_get_ex(parsed_json, "xmitdata", &hits))
         return(freeturn_json_object(parsed_json, NULL, perf_data));
     perf_data->xmtdata = atoll(json_object_to_json_string(hits));
-    if (!(hits = json_object_object_get(parsed_json, "xmitpkts")))
+    if (!json_object_object_get_ex(parsed_json, "xmitpkts", &hits))
         return(freeturn_json_object(parsed_json, NULL, perf_data));
     perf_data->xmtpkts = atoll(json_object_to_json_string(hits));
-    if (!(hits = json_object_object_get(parsed_json, "xmitwait")))
+    if (!json_object_object_get_ex(parsed_json, "xmitwait", &hits))
         return(freeturn_json_object(parsed_json, NULL, perf_data));
     perf_data->xmtwait = atoll(json_object_to_json_string(hits));
     return (freeturn_json_object(parsed_json, perf_data, NULL));
@@ -67,49 +67,49 @@ static perf_data_t *get_sel_err_from_json(char *json)
         return(NULL);
     if (!(perf_data = malloc(sizeof(perf_data_t))))
         return(freeturn_json_object(parsed_json, NULL, NULL));
-    if (!(hits = json_object_object_get(parsed_json, "excbufoverrunerrors")))
+    if (!json_object_object_get_ex(parsed_json, "excbufoverrunerrors", &hits))
         return(freeturn_json_object(parsed_json, NULL, perf_data));
     perf_data->excbufoverrunerrors = atoll(json_object_to_json_string(hits));
-    if (!(hits = json_object_object_get(parsed_json, "linkintegrityerrors")))
+    if (!json_object_object_get_ex(parsed_json, "linkintegrityerrors", &hits))
         return(freeturn_json_object(parsed_json, NULL, perf_data));
     perf_data->linkintegrityerrors = atoll(json_object_to_json_string(hits));
-    if (!(hits = json_object_object_get(parsed_json, "portbufferoverrunerrors")))
+    if (!json_object_object_get_ex(parsed_json, "portbufferoverrunerrors", &hits))
         return(freeturn_json_object(parsed_json, NULL, perf_data));
     perf_data->portbufferoverrunerrors = atoll(json_object_to_json_string(hits));
-    if (!(hits = json_object_object_get(parsed_json, "portdlidmappingerrors")))
+    if (!json_object_object_get_ex(parsed_json, "portdlidmappingerrors", &hits))
         return(freeturn_json_object(parsed_json, NULL, perf_data));
     perf_data->portdlidmappingerrors = atoll(json_object_to_json_string(hits));
-    if (!(hits = json_object_object_get(parsed_json, "portlocalphysicalerrors")))
+    if (!json_object_object_get_ex(parsed_json, "portlocalphysicalerrors", &hits))
         return(freeturn_json_object(parsed_json, NULL, perf_data));
     perf_data->portlocalphysicalerrors = atoll(json_object_to_json_string(hits));
-    if (!(hits = json_object_object_get(parsed_json, "portloopingerrors")))
+    if (!json_object_object_get_ex(parsed_json, "portloopingerrors", &hits))
         return(freeturn_json_object(parsed_json, NULL, perf_data));
     perf_data->portloopingerrors = atoll(json_object_to_json_string(hits));
-    if (!(hits = json_object_object_get(parsed_json, "portmalformedpkterrors")))
+    if (!json_object_object_get_ex(parsed_json, "portmalformedpkterrors", &hits))
         return(freeturn_json_object(parsed_json, NULL, perf_data));
     perf_data->portmalformedpkterrors = atoll(json_object_to_json_string(hits));
-    if (!(hits = json_object_object_get(parsed_json, "portvlmappingerrors")))
+    if (!json_object_object_get_ex(parsed_json, "portvlmappingerrors", &hits))
         return(freeturn_json_object(parsed_json, NULL, perf_data));
     perf_data->portvlmappingerrors = atoll(json_object_to_json_string(hits));
-    if (!(hits = json_object_object_get(parsed_json, "rcvconstrainterrors")))
+    if (!json_object_object_get_ex(parsed_json, "rcvconstrainterrors", &hits))
         return(freeturn_json_object(parsed_json, NULL, perf_data));
     perf_data->rcvconstrainterrors = atoll(json_object_to_json_string(hits));
-    if (!(hits = json_object_object_get(parsed_json, "rcverrors")))
+    if (!json_object_object_get_ex(parsed_json, "rcverrors", &hits))
         return(freeturn_json_object(parsed_json, NULL, perf_data));
     perf_data->rcverrors = atoll(json_object_to_json_string(hits));
-    if (!(hits = json_object_object_get(parsed_json, "rcvremotephyerrors")))
+    if (!json_object_object_get_ex(parsed_json, "rcvremotephyerrors", &hits))
         return(freeturn_json_object(parsed_json, NULL, perf_data));
     perf_data->rcvremotephyerrors = atoll(json_object_to_json_string(hits));
-    if (!(hits = json_object_object_get(parsed_json, "rcvswrelayerrors")))
+    if (!json_object_object_get_ex(parsed_json, "rcvswrelayerrors", &hits))
         return(freeturn_json_object(parsed_json, NULL, perf_data));
     perf_data->rcvswrelayerrors = atoll(json_object_to_json_string(hits));
-    if (!(hits = json_object_object_get(parsed_json, "symbolerrors")))
+    if (!json_object_object_get_ex(parsed_json, "symbolerrors", &hits))
         return(freeturn_json_object(parsed_json, NULL, perf_data));
     perf_data->symbolerrors = atoll(json_object_to_json_string(hits));
-    if (!(hits = json_object_object_get(parsed_json, "xmitconstrainterrors")))
+    if (!json_object_object_get_ex(parsed_json, "xmitconstrainterrors", &hits))
         return(freeturn_json_object(parsed_json, NULL, perf_data));
     perf_data->xmtconstrainterrors = atoll(json_object_to_json_string(hits));
-    if (!(hits = json_object_object_get(parsed_json, "xmitdiscards")))
+    if (!json_object_object_get_ex(parsed_json, "xmitdiscards", &hits))
         return (freeturn_json_object(parsed_json, NULL, perf_data));
     perf_data->xmtdiscards = atoll(json_object_to_json_string(hits));
     return (freeturn_json_object(parsed_json, perf_data, NULL));
