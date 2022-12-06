@@ -27,9 +27,9 @@ static int handle_json_hosts(char *raw_json, ask_demeter_args_t *ask_demeter_con
 
     if (!(parsed_json = json_tokener_parse(raw_json)))
         return (1);
-    if (!(hits = json_object_object_get(parsed_json, "hits")))
+    if (!json_object_object_get_ex(parsed_json, "hits", &hits))
         return (freeturn_json_object(parsed_json, 1, NULL));
-    if (!(hits_array = json_object_object_get(hits, "hits")))
+    if (!json_object_object_get_ex(hits, "hits", &hits_array))
         return (freeturn_json_object(parsed_json, 1, NULL));
     for (int i = 0; (array_hit = json_object_array_get_idx(hits_array, i)) && !ret; i++) {
         (*list) = add_to_list((*list), init_parsed_hostname_json());
@@ -126,7 +126,7 @@ static void print_json_as_csv(char *raw_json)
         return;
     if (!(parsed_json = json_tokener_parse(raw_json)))
         return;
-    if (!(hits = json_object_object_get(parsed_json, "hits")))
+    if (!json_object_object_get_ex(parsed_json, "hits", &hits))
         return;
     fprintf(tmp_file, "%s", json_object_to_json_string(hits));
     if (tmp_file)

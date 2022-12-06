@@ -22,17 +22,17 @@ int parse_json_str(json_object *raw_json, ask_demeter_args_t *ask_demeter_conf, 
     *cgroup = NULL, *step = NULL;
     char *step_key = NULL;
 
-    if (!(source = json_object_object_get(raw_json, "_source")))
+    if (!json_object_object_get_ex(raw_json, "_source", &source))
         return (freeturn_step_key(1, NULL));
     if (ask_demeter_conf->step_id != -1) {
         asprintf(&step_key, "step_%llu", ask_demeter_conf->step_id);
         if (!step_key)
             return (freeturn_step_key(1, NULL));
-        if (!(job_data = json_object_object_get(source, "job_data")))
+        if (!json_object_object_get_ex(source, "job_data", &job_data))
             return (freeturn_step_key(1, step_key));
-        if (!(cgroup = json_object_object_get(job_data, "cgroup")))
+        if (!json_object_object_get_ex(job_data, "cgroup", &cgroup))
             return (freeturn_step_key(1, step_key));
-        if (!(step = json_object_object_get(cgroup, step_key))) {
+        if (!json_object_object_get_ex(cgroup, step_key, &step)) {
             fprintf(stderr, "No step %llu for this job.\n", ask_demeter_conf->step_id);
             return (freeturn_step_key(2, step_key));
         }
