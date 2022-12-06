@@ -19,7 +19,7 @@ static perf_data_t *freeturn_json_object(struct json_object *obj, perf_data_t *r
 static perf_data_t *get_sel_from_json(char *json)
 {
     perf_data_t *perf_data = NULL;
-    json_object *parsed_json = NULL, *hits = json_object_new_null();
+    json_object *parsed_json = NULL, *hits = NULL;
 
     if (!(parsed_json = json_tokener_parse(json)))
         return(NULL);
@@ -61,7 +61,7 @@ static perf_data_t *get_sel_from_json(char *json)
 static perf_data_t *get_sel_err_from_json(char *json)
 {
     perf_data_t *perf_data = NULL;
-    json_object *parsed_json = NULL, *hits = json_object_new_null();
+    json_object *parsed_json = NULL, *hits = NULL;
 
     if (!(parsed_json = json_tokener_parse(json)))
         return(NULL);
