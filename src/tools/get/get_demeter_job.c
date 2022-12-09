@@ -52,7 +52,7 @@ static char *get_search_adress(char *in_adress)
 
 static bool get_query(char **query, ask_demeter_args_t *args)
 {
-    asprintf(query, "{\"query\": {\"match\": {\"job_id\": \"%lld\"}}}", args->job_id);
+    asprintf(query, "{\"query\":{\"bool\": {\"should\": [{\"match\": {\"job_id\": \"%lld\"}}, {\"exists\": {\"field\": \"job_data\"}}]}}}", args->job_id);
     if (!*query)
         return (false);
     return (true);
