@@ -10,6 +10,7 @@ include ./Makefile.inc
 NAME				=	ask_demeter
 
 SRC 				=	src/ask_demeter.c								\
+						src/tools/json_to_csv.c							\
 						src/tools/init/init_args.c						\
 						src/tools/init/init_parsed_hostname_json.c		\
 						src/tools/get/get_arg.c							\
@@ -42,12 +43,9 @@ send:	all
 		scp $(NAME) my_vm:/home/compose_fake_taranis/shared/
 
 install:	all
-		mkdir -p /bin/ask_demeter_scripts
-		cp ./src/json_to_csv.py /bin/ask_demeter_scripts
 		cp $(NAME) /bin
 
 uninstall:	clean
-		rm -dr /bin/ask_demeter_scripts
 		rm /bin/ask_demeter
 
 remove:		uninstall

@@ -87,4 +87,6 @@ int display_sel_counters_err_all_nodes(linked_list_t *host_list, ask_demeter_arg
 
 void print_line(int len, bool tab);
 
+char *json_to_csv(char *json);
+
 #endif /* !ASK_DEMETER_H_ */
